@@ -1,0 +1,38 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+
+    <qresource prefix="/">
+
+        <!--For first background set-->
+        <file>img/background1/background.png</file>
+        <file>img/background1/first.png</file>
+        <file>img/background1/second.png</file>
+        <file>img/background1/third.png</file>
+
+        <!--For second background set-->
+        <file>img/background2/background.png</file>
+        <file>img/background2/first.png</file>
+        <file>img/background2/second.png</file>
+        <file>img/background2/third.png</file>
+
+        <!--frame set for the stickman animation-->
+        <file>img/stickman/frame1.png</file>
+        <file>img/stickman/frame2.png</file>
+        <file>img/stickman/frame3.png</file>
+        <file>img/stickman/frame4.png</file>
+        <file>img/stickman/frame5.png</file>
+        <file>img/stickman/frame6.png</file>
+        <file>img/stickman/frame7.png</file>
+        <file>img/stickman/frame8.png</file>
+        <file>img/stickman/frame9.png</file>
+
+        <!--Background music file-->
+        <file>sound/background_music.wav</file>
+
+        <!--Location of config file-->
+        <file>config/config.txt</file>
+
+    </qresource>
+
+
+</RCC>

@@ -1,12 +1,15 @@
-#-------------------------------------------------
+ #-------------------------------------------------
 #
 # Project created by QtCreator 2019-05-21T16:48:15
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui \
+         multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+CONFIG += c++11
 
 TARGET = SideScrolling-Game
 TEMPLATE = app
@@ -25,16 +28,72 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp
+    main.cpp \
+    coordinate.cpp \
+    stickman.cpp \
+    config.cpp \
+    background.cpp \
+    pausedialog.cpp \
+    gamedialog.cpp \
+    startdialog.cpp \
+    gamefactory.cpp \
+    stage1game.cpp \
+    extendedconfig.cpp \
+    stage2gamefactory.cpp \
+    stage2game.cpp \
+    gamestate.cpp \
+    obstacle.cpp \
+    entity.cpp \
+    compositeentity.cpp \
+    leafentity.cpp \
+    player.cpp \
+    stickmanplayer.cpp \
+    physicsbody.cpp \
+    rectcollider.cpp \
+    emptyentity.cpp \
+    tester.cpp \
+    gamestatefactory.cpp \
+    stage2gamestatefactory.cpp \
+    stage2gamestate.cpp
 
 HEADERS += \
-        mainwindow.h
+    coordinate.h \
+    stickman.h \
+    config.h \
+    background.h \
+    pausedialog.h \
+    gamedialog.h \
+    startdialog.h \
+    gamefactory.h \
+    stage1gamefactory.h \
+    stage1game.h \
+    extendedconfig.h \
+    configuration.h \
+    stage2gamefactory.h \
+    stage2game.h \
+    gamestate.h \
+    obstacle.h \
+    entity.h \
+    compositeentity.h \
+    leafentity.h \
+    player.h \
+    stickmanplayer.h \
+    physicsbody.h \
+    rectcollider.h \
+    emptyentity.h \
+    tester.h \
+    gamestatefactory.h \
+    stage2gamestatefactory.h \
+    stage2gamestate.h
+
 
 FORMS += \
-        mainwindow.ui
+        pausedialog.ui \
+        startdialog.ui \
+        gamedialog.ui
+RESOURCES += \
+    resources.qrc
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+DISTFILES += \
+    config.txt
+
