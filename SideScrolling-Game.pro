@@ -84,8 +84,8 @@ HEADERS += \
     tester.h \
     gamestatefactory.h \
     stage2gamestatefactory.h \
-    stage2gamestate.h
-
+    stage2gamestate.h \
+    collider.h
 
 FORMS += \
         pausedialog.ui \
