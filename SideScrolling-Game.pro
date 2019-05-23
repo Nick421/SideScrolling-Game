@@ -54,7 +54,9 @@ SOURCES += \
     tester.cpp \
     gamestatefactory.cpp \
     stage2gamestatefactory.cpp \
-    stage2gamestate.cpp
+    stage2gamestate.cpp \
+    checkpoint.cpp \
+    powerup.cpp
 
 HEADERS += \
     coordinate.h \
@@ -85,7 +87,9 @@ HEADERS += \
     gamestatefactory.h \
     stage2gamestatefactory.h \
     stage2gamestate.h \
-    collider.h
+    collider.h \
+    checkpoint.h \
+    powerup.h
 
 FORMS += \
         pausedialog.ui \

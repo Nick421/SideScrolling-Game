@@ -5,12 +5,122 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QDebug>
 
 #include <iostream>
 
+using namespace std;
+
+// stage 3
+
+string search_key(string section, string key) {
+    return section + "." + key;
+}
+
+string get(string section, string key, map <string, string> obstacles_infos) {
+    map<string, string>::iterator it = obstacles_infos.find(search_key(section, key));
+    if (it != obstacles_infos.end()) {
+        return it->second;
+    }
+    return "";
+}
+
+void ExtendedConfig::setUpPowerUps(map<string, string> map) {
+    bool parse_check = false;
+    int num_object = 0;
+    while (1) {
+        num_object++;
+        char str[20];
+        sprintf(str, "Powerup%d", num_object);
+        std::string check = get(str, "type", map);
+        if (check.compare("") == 0) {
+            qDebug() << "READ ALL OF THE POWERSUPS IN THE CONFIG FILES\n";
+            break;
+        }
+
+        int start_x = QString(get(str, "x", map).c_str()).toInt(&parse_check);
+        if (!parse_check && start_x < 0) {
+            start_x = 0;
+        }
+
+        int start_y = QString(get(str, "y", map).c_str()).toInt(&parse_check);
+        if (!parse_check && start_y < 0) {
+            start_y = 0;
+        }
+
+        int height = QString(get(str, "height", map).c_str()).toInt(&parse_check);
+        if (!parse_check || height < 1) {
+            height = 100;
+        }
+
+        int width = QString(get(str, "width", map).c_str()).toInt(&parse_check);
+        if (!parse_check || width < 1) {
+            width = 100;
+        }
+
+        QColor colour = QColor(QString(get(str, "colour", map).c_str()));
+        if (!colour.isValid()) {
+            colour = QColor(0, 0, 0);
+        }
+
+
+        string type = get(str, "type", map);
+
+        if (type.compare("") != 0) {
+            PowerUpsConfig* p_config = new PowerUpsConfig();
+            p_config->width = width;
+            p_config->height = height;
+            p_config->offset_x = start_x;
+            p_config->position_y = start_y;
+            p_config->colour = colour;
+            p_config->type = type;
+
+            // Check that it doesnt overlap with other obstacles.
+            bool overlap = false;
+            double x_pos = 0;
+            std::vector<ObstacleConfig*>::iterator it;
+            for (it = obstacle_data.begin(); it != obstacle_data.end(); ++it) {
+                x_pos += (*it)->offset_x;
+            }
+
+            double cumulative_x_pos = 0;
+            for (it = obstacle_data.begin(); it != obstacle_data.end(); ++it) {
+                cumulative_x_pos += (*it)->offset_x;
+                double old_min_x = cumulative_x_pos - (*it)->width / 2.0;
+                double old_max_x = cumulative_x_pos + (*it)->width / 2.0;
+                double old_min_y = (*it)->position_y - (*it)->height / 2.0;
+                double old_max_y = (*it)->position_y + (*it)->height / 2.0;
+                double new_min_x = x_pos + start_x - width / 2.0;
+                double new_max_x = x_pos + start_x + width / 2.0;
+                double new_min_y = start_y - width / 2.0;
+                double new_max_y = start_y + width / 2.0;
+                if (!(old_min_x > new_max_x || old_max_x < new_min_x) && !(old_min_y > new_max_y || old_max_y < new_min_y)) {
+                    qDebug() << "Powerups overlap with an obstacle";
+                    overlap = true;
+                    break;
+                }
+            }
+            if (overlap) {
+                continue;
+            }
+
+            other_objects_data.push_back(p_config);
+
+        } else {
+            qDebug() << "SHAPE NOT SPECIFIED FOR " << str << " THIS OBSTACLE WILL BE IGNORED\n";
+        }
+    }
+
+}
+
+std::vector<PowerUpsConfig*> ExtendedConfig::getOtherObjectsData() {
+    return other_objects_data;
+}
+
 ExtendedConfig::ExtendedConfig(Config& config)
     : config(config),
-      obstacle_data(std::vector<ObstacleConfig*>()) {
+      obstacle_data(std::vector<ObstacleConfig*>()),
+      other_objects_data(vector<PowerUpsConfig*>()) {
     setupConfig();
 }
 
@@ -33,6 +143,11 @@ std::vector<ObstacleConfig*> ExtendedConfig::getObstacleData() {
 }
 
 void ExtendedConfig::setupConfig() {
+    //stage 3
+    map <string, string> additionalObjects_info;
+    string current_section;
+    bool in_section = false;
+
     QFile config_file(":config/config.txt");
 
     //Open the config file
@@ -48,7 +163,7 @@ void ExtendedConfig::setupConfig() {
 
             QString element = split_line.at(1);
 
-            if (split_line.first() =="Size" || split_line.first() == "Position" || split_line.first() == "Velocity" || split_line.first() == "Background") {
+            if (split_line.first() == "Size" || split_line.first() == "Position" || split_line.first() == "Velocity" || split_line.first() == "Background") {
                 // Already handled by original config file, ignore.
                 continue;
 
@@ -72,7 +187,7 @@ void ExtendedConfig::setupConfig() {
                             int g = obstacle_fields.at(5).toInt();
                             int b = obstacle_fields.at(6).toInt();
 
-                            if (width <= 0 || height <= 0 || offset < 0 || y_pos < 0 || r < 0 || r > 255 ||g < 0 || g > 255 ||b < 0 || b > 255) {
+                            if (width <= 0 || height <= 0 || offset < 0 || y_pos < 0 || r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
                                 std::cerr << "Invalid obstacle data at index " << i << std::endl;
                             } else {
 
@@ -87,15 +202,15 @@ void ExtendedConfig::setupConfig() {
                                 double cumulative_x_pos = 0;
                                 for (it = obstacle_data.begin(); it != obstacle_data.end(); ++it) {
                                     cumulative_x_pos += (*it)->offset_x;
-                                    double old_min_x = cumulative_x_pos - (*it)->width/2.0;
-                                    double old_max_x = cumulative_x_pos + (*it)->width/2.0;
-                                    double old_min_y = (*it)->position_y - (*it)->height/2.0;
-                                    double old_max_y = (*it)->position_y + (*it)->height/2.0;
-                                    double new_min_x = x_pos + offset - width/2.0;
-                                    double new_max_x = x_pos + offset + width/2.0;
-                                    double new_min_y = y_pos - width/2.0;
-                                    double new_max_y = y_pos + width/2.0;
-                                    if (!(old_min_x > new_max_x || old_max_x < new_min_x)&&!(old_min_y > new_max_y || old_max_y < new_min_y)) {
+                                    double old_min_x = cumulative_x_pos - (*it)->width / 2.0;
+                                    double old_max_x = cumulative_x_pos + (*it)->width / 2.0;
+                                    double old_min_y = (*it)->position_y - (*it)->height / 2.0;
+                                    double old_max_y = (*it)->position_y + (*it)->height / 2.0;
+                                    double new_min_x = x_pos + offset - width / 2.0;
+                                    double new_max_x = x_pos + offset + width / 2.0;
+                                    double new_min_y = y_pos - width / 2.0;
+                                    double new_max_y = y_pos + width / 2.0;
+                                    if (!(old_min_x > new_max_x || old_max_x < new_min_x) && !(old_min_y > new_max_y || old_max_y < new_min_y)) {
                                         std::cerr << "Invalid obstacle data at index " << i << " due to overlap" << std::endl;
                                         overlap = true;
                                         break;
@@ -122,11 +237,28 @@ void ExtendedConfig::setupConfig() {
                         }
                     }
                 }
+                // stage 3
+            } else if (split_line.first().startsWith("<")) {
+
+                if (split_line[0].at(split_line[0].length() - 1) == '>') {
+
+                    current_section = current_section = split_line[0].toStdString().substr(1, split_line[0].size() - 2);
+                    in_section = true;
+                }
+            } else if (in_section == true && split_line[0].at(0) != '<') {
+                string key = split_line.at(0).toStdString();
+                string value = split_line.at(1).toStdString();
+
+                // put key value into the map
+                // example key.value = value
+                additionalObjects_info[current_section + "." + key] = value;
             }
 
         }
 
         config_file.close();
+        //stage 3
+        setUpPowerUps(additionalObjects_info);
     } else {
         std::cerr << "Config file not found" << std::endl;
     }

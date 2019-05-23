@@ -5,6 +5,7 @@
 #include "gamestate.h"
 #include "extendedconfig.h"
 #include "emptyentity.h"
+#include "powerup.h"
 #include <vector>
 #include <sstream>
 
@@ -16,7 +17,7 @@ GameState* Stage2GameStateFactory::createGameState() {
 
     // Create background and player
     Background* background = new Background(Coordinate(0, world_height, world_height, world_width));
-    StickmanPlayer* player = new StickmanPlayer(new Coordinate(Config::config()->getStickman()->getXPosition() - (Config::config()->getStickman()->getWidth()*0.5),
+    StickmanPlayer* player = new StickmanPlayer(new Coordinate(Config::config()->getStickman()->getXPosition() - (Config::config()->getStickman()->getWidth() * 0.5),
                                                                0 + Config::config()->getStickman()->getHeight(),
                                                                world_height,
                                                                world_width),
@@ -34,6 +35,13 @@ GameState* Stage2GameStateFactory::createGameState() {
         loop += obstacleConfig->offset_x;
     }
 
+    std::vector<PowerUpsConfig*> other_objects_data = config.getOtherObjectsData();
+    // Calculate when to loop the other objects
+    // need to get rid of it
+    for (auto* o : other_objects_data) {
+        loop += o->offset_x;
+    }
+
     // Create obstacles
     double previous_x = world_width;
     int count = 0;
@@ -43,8 +51,23 @@ GameState* Stage2GameStateFactory::createGameState() {
         name << "obstacle_" << count;
         Coordinate* obs_pos = new Coordinate(previous_x, obstacleConfig->position_y, world_height, world_width);
         Obstacle* obs = new Obstacle(obs_pos, obstacleConfig->width, obstacleConfig->height,
-                -Config::config()->getStickman()->getVelocity(), loop,
-                QColor(obstacleConfig->colour_red, obstacleConfig->colour_green, obstacleConfig->colour_blue), name.str());
+                                     -Config::config()->getStickman()->getVelocity(), loop,
+                                     QColor(obstacleConfig->colour_red, obstacleConfig->colour_green, obstacleConfig->colour_blue), name.str());
+        root->addChild(obs);
+        count++;
+    }
+
+    // Create powerups
+    count = 0;
+    for (auto* PowerUpsConfig : other_objects_data) {
+        previous_x = previous_x + PowerUpsConfig->offset_x;
+        std::stringstream name;
+        name << "powerups_" << count;
+        QImage image;
+        Coordinate* obs_pos = new Coordinate(previous_x, PowerUpsConfig->position_y, world_height, world_width);
+        PowerUp* obs = new PowerUp(obs_pos, PowerUpsConfig->width, PowerUpsConfig->height,
+                                   -Config::config()->getStickman()->getVelocity(), loop,
+                                   PowerUpsConfig->colour, name.str(), image, PowerUpsConfig->type);
         root->addChild(obs);
         count++;
     }

@@ -11,7 +11,7 @@
 
 class StickmanPlayer : public Player {
 
-public:
+  public:
     StickmanPlayer(Coordinate* position, std::string name);
     ~StickmanPlayer() override;
 
@@ -20,13 +20,18 @@ public:
     void landed();
     Obstacle* checkCollisions(std::vector<Obstacle*> obstacles);
 
-    virtual RectCollider* getCollider() override { return &collider; }
+    virtual RectCollider* getCollider() override {
+        return &collider;
+    }
 
     virtual void onCollision(Entity* other) override;
     virtual void update(bool paused, double time_since_last_frame) override;
-    virtual void render(QPainter &painter) override;
+    virtual void render(QPainter& painter) override;
 
-private:
+    // stage 3
+    void set_gravity(double gravity) override;
+
+  private:
     // Coordinate for managing jumping and other movement independently to config positions.
     Coordinate* offset_position;
     PhysicsBody physics_body;

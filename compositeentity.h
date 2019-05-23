@@ -5,7 +5,7 @@
 #include <string>
 
 class CompositeEntity : public Entity {
-public:
+  public:
     CompositeEntity(Coordinate* position, std::string name);
     ~CompositeEntity() = default;
 
@@ -13,6 +13,6 @@ public:
     void removeChild(Entity* e);
     Entity* getChild(Entity* e);
 
-    void renderChildren(QPainter &painter);
+    void renderChildren(QPainter& painter);
     void updateChildren(bool paused, double deltaTimeMilliseconds);
 };

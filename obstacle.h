@@ -7,18 +7,22 @@
 
 class Obstacle : public CompositeEntity {
 
-public:
+  public:
     Obstacle(Coordinate* position, double width, double height, double velocity, double loop_after, QColor colour, std::string name);
     ~Obstacle() override = default;
 
-    virtual RectCollider* getCollider() override { return &collider; }
+    virtual RectCollider* getCollider() override {
+        return &collider;
+    }
 
     virtual void update(bool paused, double time_since_last_frame) override;
-    virtual void render(QPainter &painter) override;
+    virtual void render(QPainter& painter) override;
 
-    bool isMoving() {return is_moving; }
+    bool isMoving() {
+        return is_moving;
+    }
 
-private:
+  private:
     QColor colour;
     RectCollider collider;
     double width;

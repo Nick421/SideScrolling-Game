@@ -5,8 +5,19 @@
 #include "config.h"
 #include "configuration.h"
 
+// stage 3
+struct PowerUpsConfig {
+    double width;
+    double height;
+    double offset_x;
+    double position_y;
+    QColor colour;
+    QImage image;
+    std::string type;
+};
+
 class ExtendedConfig : public Configuration {
-public:
+  public:
     ExtendedConfig(Config& config);
     ~ExtendedConfig() override;
 
@@ -14,11 +25,17 @@ public:
     virtual unsigned int getWorldHeight() override;
     virtual std::vector<ObstacleConfig*> getObstacleData() override;
 
-protected:
+    //stage 3
+    void setUpPowerUps(std::map<std::string, std::string> map);
+    std::vector<PowerUpsConfig*> getOtherObjectsData();
+
+  protected:
     virtual void setupConfig() override;
 
-private:
+  private:
     Config& config;
     std::vector<ObstacleConfig*> obstacle_data;
+    // stage 3
+    std::vector<PowerUpsConfig*> other_objects_data;
 };
 

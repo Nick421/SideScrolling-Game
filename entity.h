@@ -8,7 +8,7 @@ class RectCollider;
 
 class Entity {
 
-public:
+  public:
     Entity();
     Entity(Coordinate* position, std::string name);
     virtual ~Entity();
@@ -16,20 +16,26 @@ public:
     Coordinate* getPosition();
     void setPosition(Coordinate* position);
 
-    std::string getName() {return name;}
-    std::vector<Entity*>& getChildren() { return children; }
+    std::string getName() {
+        return name;
+    }
+    std::vector<Entity*>& getChildren() {
+        return children;
+    }
 
     // Override this if your entity has a collider.
-    virtual RectCollider* getCollider() { return nullptr; }
+    virtual RectCollider* getCollider() {
+        return nullptr;
+    }
     virtual void onCollision(Entity* /*other */) {}
 
     virtual void update(bool paused, double time_since_last_frame) = 0;
-    virtual void render(QPainter &painter) = 0;
+    virtual void render(QPainter& painter) = 0;
 
-protected:
+  protected:
     std::vector<Entity*> children;
 
-private:
+  private:
     Coordinate* position;
     std::string name;
 };
