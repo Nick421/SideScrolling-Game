@@ -58,7 +58,7 @@ GameState* Stage2GameStateFactory::createGameState() {
         count++;
     }
 
-    // Create powerups stage 3
+    // Create powerups, checkpoints stage 3
     count = 0;
     for (auto* PowerUpsConfig : other_objects_data) {
         previous_x = previous_x + PowerUpsConfig->offset_x;
@@ -73,6 +73,8 @@ GameState* Stage2GameStateFactory::createGameState() {
             image.load(":/img/misc/large.png");
         } else if (PowerUpsConfig->type.compare("Giant") == 0) {
             image.load(":/img/misc/giant.png");
+        } else if (PowerUpsConfig->type.compare("Checkpoint") == 0) {
+            image.load(":/img/misc/checkpoint.png");
         }
         Coordinate* obs_pos = new Coordinate(previous_x, PowerUpsConfig->position_y, world_height, world_width);
         PowerUp* obs = new PowerUp(obs_pos, image.width(), image.height(),
@@ -81,6 +83,7 @@ GameState* Stage2GameStateFactory::createGameState() {
         root->addChild(obs);
         count++;
     }
+    player->set_lives(config.getLives());
 
     // Create entity tree
     state->setRootEntity(root);

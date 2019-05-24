@@ -27,6 +27,7 @@ class ExtendedConfig : public Configuration {
     //stage 3
     void setUpPowerUps(std::map<std::string, std::string> map);
     std::vector<PowerUpsConfig*> getOtherObjectsData();
+    int getLives();
 
   protected:
     virtual void setupConfig() override;
@@ -36,5 +37,6 @@ class ExtendedConfig : public Configuration {
     std::vector<ObstacleConfig*> obstacle_data;
     // stage 3
     std::vector<PowerUpsConfig*> other_objects_data;
+    int m_lives;
 };
 

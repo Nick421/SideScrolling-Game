@@ -87,3 +87,15 @@ void StickmanPlayer::render(QPainter& painter) {
 void StickmanPlayer::set_gravity(double gravity) {
     this->gravity = gravity;
 }
+
+int StickmanPlayer::get_lives() {
+    return m_lives;
+}
+
+void StickmanPlayer::set_lives(int lives) {
+    this->m_lives = lives;
+}
+
+void StickmanPlayer::lose_life() {
+    m_lives--;
+}

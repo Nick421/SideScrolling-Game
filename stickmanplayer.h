@@ -30,6 +30,9 @@ class StickmanPlayer : public Player {
 
     // stage 3
     void set_gravity(double gravity) override;
+    int get_lives() override;
+    void set_lives(int lives) override;
+    void lose_life() override;
 
   private:
     // Coordinate for managing jumping and other movement independently to config positions.
@@ -44,5 +47,8 @@ class StickmanPlayer : public Player {
 
     int frame_number;
     int counter;
+
+    // stage 3
+    int m_lives;
 };
 

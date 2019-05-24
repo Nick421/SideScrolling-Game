@@ -89,6 +89,8 @@ void GameState::checkCollisions() {
                 getPlayer()->onCollision(entity);
                 entity->onCollision(getPlayer());
                 player_collided = true;
+                // stage 3
+                getPlayer()->lose_life();
             }
         }
     }

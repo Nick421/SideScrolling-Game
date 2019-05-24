@@ -55,7 +55,6 @@ SOURCES += \
     gamestatefactory.cpp \
     stage2gamestatefactory.cpp \
     stage2gamestate.cpp \
-    checkpoint.cpp \
     powerup.cpp \
     backgroundstage3.cpp
 
@@ -89,7 +88,6 @@ HEADERS += \
     stage2gamestatefactory.h \
     stage2gamestate.h \
     collider.h \
-    checkpoint.h \
     powerup.h \
     backgroundstage3.h
 

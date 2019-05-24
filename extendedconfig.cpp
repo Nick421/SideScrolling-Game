@@ -110,6 +110,10 @@ std::vector<PowerUpsConfig*> ExtendedConfig::getOtherObjectsData() {
     return other_objects_data;
 }
 
+int ExtendedConfig::getLives() {
+    return m_lives;
+}
+
 ExtendedConfig::ExtendedConfig(Config& config)
     : config(config),
       obstacle_data(std::vector<ObstacleConfig*>()),
@@ -245,6 +249,8 @@ void ExtendedConfig::setupConfig() {
                 // put key value into the map
                 // example key.value = value
                 additionalObjects_info[current_section + "." + key] = value;
+            } else if (split_line.first() == "Lives") {
+                m_lives = element.toInt();
             }
 
         }
