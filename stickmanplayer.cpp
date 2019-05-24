@@ -83,6 +83,7 @@ void StickmanPlayer::render(QPainter& painter) {
                        sprite);
 }
 
+// stgae 3
 void StickmanPlayer::set_gravity(double gravity) {
     this->gravity = gravity;
 }

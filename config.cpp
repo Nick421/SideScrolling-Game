@@ -35,12 +35,12 @@ void Config::setupConfig() {
 
             QString element = split_line.at(1);
 
-            if (split_line.first() =="Size") {
+            if (split_line.first() == "Size") {
 
                 if (element.toStdString() != "tiny" && element.toStdString() != "normal" &&
                         element.toStdString() != "large" && element.toStdString() != "giant") {
                     std::cerr << "Not a defined size in config file, please make it a valid size" << std::endl <<
-                                 "Valid sizes are: tiny, normal, large, giant" << std::endl;
+                              "Valid sizes are: tiny, normal, large, giant" << std::endl;
                     return;
                 }
 
@@ -51,7 +51,7 @@ void Config::setupConfig() {
 
                 if (element.toInt() < 0 || element.toInt() > getWorldWidth()) {
                     std::cerr << "Position is out of bounds. Please make it a valid position" << std::endl <<
-                                 "[0 <= position <= " << getWorldWidth() << "]" << std::endl;
+                              "[0 <= position <= " << getWorldWidth() << "]" << std::endl;
                     return;
                 }
 
@@ -67,7 +67,7 @@ void Config::setupConfig() {
 
                 if (element.toInt() < 1 || element.toInt() > 2) {
                     std::cerr << "Background does not exist. Please make it a valid background" << std::endl <<
-                                 "[1 <= background_number <= 2]" << std::endl;
+                              "[1 <= background_number <= 2]" << std::endl;
                     return;
                 }
 

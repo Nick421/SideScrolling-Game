@@ -1,7 +1,7 @@
 #pragma once
 
 class Coordinate {
-public:
+  public:
     Coordinate(
         double x_coordinate,
         double y_coordinate,
@@ -47,7 +47,7 @@ public:
         return frame_width;
     }
 
-private:
+  private:
     double x_coordinate;
     double y_coordinate;
     unsigned int frame_height;

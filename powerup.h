@@ -9,8 +9,8 @@ class PowerUp : public CompositeEntity {
 
   public:
     PowerUp(Coordinate* position, double width, double height,
-            double velocity, double loop_after, QColor colour,
-            std::string name, QImage image, std::string type);
+            double velocity, double loop_after,
+            std::string name, std::string type, QImage image);
     ~PowerUp() override = default;
 
     virtual RectCollider* getCollider() override {
@@ -29,7 +29,7 @@ class PowerUp : public CompositeEntity {
     }
 
   private:
-    QColor m_colour;
+    QImage m_image;
     RectCollider m_collider;
     double m_width;
     double m_height;

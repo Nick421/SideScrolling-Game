@@ -10,21 +10,29 @@
 
 class Background {
 
-public:
+  public:
 
     Background(Coordinate main_coordinate);
-    ~Background() = default;
+    virtual ~Background() = default;
 
     //Render the background depending on if it is in a paused state or not
-    void render(QPainter &painter, bool paused);
+    virtual void render(QPainter& painter, bool paused);
 
     //Getter functions
-    Coordinate getCoordinate() { return main_coordinate; }
-    QPixmap getFirst() { return first; }
-    QPixmap getSecond() { return second; }
-    QPixmap getThird() { return third; }
+    Coordinate getCoordinate() {
+        return main_coordinate;
+    }
+    QPixmap getFirst() {
+        return first;
+    }
+    QPixmap getSecond() {
+        return second;
+    }
+    QPixmap getThird() {
+        return third;
+    }
 
-private:
+  private:
     Coordinate main_coordinate;
 
     Coordinate first_coordinate;

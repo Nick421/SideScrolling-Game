@@ -6,16 +6,19 @@
 class GameState;
 
 class Stage2Game : public Stage1Game {
-public:
+  public:
     Stage2Game(GameState* state);
     ~Stage2Game() override;
 
-    void render(QPainter &painter);
+    void render(QPainter& painter);
 
-protected:
+  protected:
 
-    void paintEvent(QPaintEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
+    void paintEvent(QPaintEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
     GameState* state;
     bool player_colliding;
+
+    // stage 3
+    void keyReleaseEvent(QKeyEvent* event) override;
 };

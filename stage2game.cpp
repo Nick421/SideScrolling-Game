@@ -6,12 +6,11 @@
 Stage2Game::Stage2Game(GameState* state)
     : state(state) {}
 
-Stage2Game::~Stage2Game()
-{
+Stage2Game::~Stage2Game() {
     delete state;
 }
 
-void Stage2Game::render(QPainter &painter) {
+void Stage2Game::render(QPainter& painter) {
 
     if (state->getBackground() != nullptr) {
         state->getBackground()->render(painter, paused || state->getPlayerColliding());
@@ -25,16 +24,33 @@ void Stage2Game::render(QPainter &painter) {
     state->getRootEntity()->render(painter);
 }
 
-void Stage2Game::keyPressEvent(QKeyEvent *event) {
+void Stage2Game::keyPressEvent(QKeyEvent* event) {
     // Call key press event for parent class
     Stage1Game::keyPressEvent(event);
 
-    if (event->type()==QEvent::KeyPress) {
+    if (event->type() == QEvent::KeyPress) {
         if (event->key() == Qt::Key_Space) {
             // Make stickman jump
             state->getPlayer()->jump();
         }
+
+        //stage 3
+        else if (event->key() == Qt::Key_Right) {
+            //state->getBackground()->moveRight();
+            Config::config()->getStickman()->changeVelocity(20);
+            Config::config()->getStickman()->updateStickman();
+        } else if (event->key() == Qt::Key_Left) {
+            //state->getBackground()->moveLeft();
+            Config::config()->getStickman()->changeVelocity(-20);
+            Config::config()->getStickman()->updateStickman();
+        }
     }
+}
+
+// stage 3
+void Stage2Game::keyReleaseEvent(QKeyEvent* event) {
+    Config::config()->getStickman()->changeVelocity(0);
+    Config::config()->getStickman()->updateStickman();
 }
 
 void Stage2Game::paintEvent(QPaintEvent* /*event*/) {

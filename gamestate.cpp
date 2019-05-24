@@ -62,7 +62,7 @@ void GameState::setRootEntity(Entity* root) {
     root_entity = root;
 }
 
-Background* GameState::getBackground() {
+BackgroundStage3* GameState::getBackground() {
     return background;
 }
 
@@ -70,7 +70,7 @@ Player* GameState::getPlayer() {
     return player;
 }
 
-void GameState::setBackground(Background* bg) {
+void GameState::setBackground(BackgroundStage3* bg) {
     background = bg;
 }
 

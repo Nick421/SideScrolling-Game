@@ -58,12 +58,6 @@ void ExtendedConfig::setUpPowerUps(map<string, string> map) {
             width = 100;
         }
 
-        QColor colour = QColor(QString(get(str, "colour", map).c_str()));
-        if (!colour.isValid()) {
-            colour = QColor(0, 0, 0);
-        }
-
-
         string type = get(str, "type", map);
 
         if (type.compare("") != 0) {
@@ -72,7 +66,6 @@ void ExtendedConfig::setUpPowerUps(map<string, string> map) {
             p_config->height = height;
             p_config->offset_x = start_x;
             p_config->position_y = start_y;
-            p_config->colour = colour;
             p_config->type = type;
 
             // Check that it doesnt overlap with other obstacles.

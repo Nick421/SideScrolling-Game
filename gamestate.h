@@ -5,13 +5,15 @@
 #include <string>
 #include <vector>
 
+#include <backgroundstage3.h>
+
 class Background;
 class Entity;
 class Player;
 
 class GameState {
 
-public:
+  public:
     GameState();
     virtual ~GameState();
 
@@ -21,24 +23,26 @@ public:
     Entity* findEntityByName(const std::string& name);
     std::vector<Entity*> findEntitiesByNameContains(const std::string& string);
 
-    Background* getBackground();
-    void setBackground(Background* bg);
+    BackgroundStage3* getBackground();
+    void setBackground(BackgroundStage3* bg);
 
     Player* getPlayer();
     void setPlayer(Player* player);
 
     void update(bool paused);
-    bool getPlayerColliding() {return player_colliding; }
+    bool getPlayerColliding() {
+        return player_colliding;
+    }
 
-protected:
+  protected:
     void checkCollisions();
 
-private:
+  private:
     Entity* findEntityByNameRecursive(const std::string& name, Entity* root);
     void findEntitiesByNameContainsRecursive(const std::string& string, Entity* root, std::vector<Entity*>& list);
 
     Player* player;
-    Background* background;
+    BackgroundStage3* background;
     Entity* root_entity;
     bool player_colliding;
 };

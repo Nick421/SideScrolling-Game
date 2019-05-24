@@ -1,26 +1,20 @@
 #include "powerup.h"
 
-PowerUp::PowerUp(Coordinate* position, double width, double height, double velocity, double loop_after, QColor colour, std::string name, QImage image, std::string type)
+#include "config.h"
+
+PowerUp::PowerUp(Coordinate* position, double width, double height, double velocity, double loop_after, std::string name, std::string type, QImage image)
     : CompositeEntity(position, name),
-      m_colour(colour),
       m_collider(RectCollider(new Coordinate(position->getXCoordinate() - width / 2.0, position->getYCoordinate() - height / 2.0, position->getFrameHeight(), position->getFrameWidth()),
                               new Coordinate(position->getXCoordinate() + width / 2.0, position->getYCoordinate() + height / 2.0, position->getFrameHeight(), position->getFrameWidth()))),
       m_velocity(velocity),
       m_dist_travelled(0),
       m_loop_after(loop_after),
       m_is_moving(true),
-      m_type(type) {
-    if (width > 0) {
-        this->m_width = width;
-    } else {
-        this->m_width = 1;
-    }
+      m_type(type),
+      m_image(image),
+      m_width(width),
+      m_height(height) {
 
-    if (height > 0) {
-        this->m_height = height;
-    } else {
-        this->m_height = 1;
-    }
 }
 
 void PowerUp::update(bool paused, double time_since_last_frame) {
@@ -34,7 +28,7 @@ void PowerUp::update(bool paused, double time_since_last_frame) {
         }
 
         // Keep collider in sync with position
-        this->getPosition()->changeInXCoordinate(m_velocity);
+        this->getPosition()->changeInXCoordinate(-Config::config()->getStickman()->getVelocity());
         m_collider.getV1()->setXCoordinateToZero(getPosition()->getXCoordinate() - m_width / 2.0);
         m_collider.getV1()->setYCoordinateToZero(getPosition()->getYCoordinate() - m_height / 2.0);
         m_collider.getV2()->setXCoordinateToZero(getPosition()->getXCoordinate() + m_width / 2.0);
@@ -50,16 +44,11 @@ void PowerUp::update(bool paused, double time_since_last_frame) {
 
 void PowerUp::render(QPainter& painter) {
 
-    QBrush brush(m_colour);
-    painter.setBrush(brush);
-
     if (getPosition() != nullptr) {
         double x = this->getPosition()->getQtRenderingXCoordinate();
         double y = this->getPosition()->getQtRenderingYCoordinate();
-        painter.drawRect(x - m_width / 2.0, y - m_height / 2.0, m_width, m_height);
+        painter.drawImage(x - m_width / 2.0, y - m_height / 2.0, m_image);
     }
 
     renderChildren(painter);
 }
-
-

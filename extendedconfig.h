@@ -11,7 +11,6 @@ struct PowerUpsConfig {
     double height;
     double offset_x;
     double position_y;
-    QColor colour;
     QImage image;
     std::string type;
 };

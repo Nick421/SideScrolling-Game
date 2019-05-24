@@ -2,11 +2,15 @@
 
 #include "coordinate.h"
 
+//stage 3
+#include "config.h"
+
+
 Obstacle::Obstacle(Coordinate* position, double width, double height, double velocity, double loop_after, QColor colour, std::string name)
     : CompositeEntity(position, name),
       colour(colour),
-      collider(RectCollider(new Coordinate(position->getXCoordinate() - width/2.0, position->getYCoordinate() - height/2.0, position->getFrameHeight(), position->getFrameWidth()),
-                            new Coordinate(position->getXCoordinate() + width/2.0, position->getYCoordinate() + height/2.0, position->getFrameHeight(), position->getFrameWidth()))),
+      collider(RectCollider(new Coordinate(position->getXCoordinate() - width / 2.0, position->getYCoordinate() - height / 2.0, position->getFrameHeight(), position->getFrameWidth()),
+                            new Coordinate(position->getXCoordinate() + width / 2.0, position->getYCoordinate() + height / 2.0, position->getFrameHeight(), position->getFrameWidth()))),
       velocity(velocity),
       dist_travelled(0),
       loop_after(loop_after),
@@ -37,11 +41,12 @@ void Obstacle::update(bool paused, double time_since_last_frame) {
         }
 
         // Keep collider in sync with position
-        this->getPosition()->changeInXCoordinate(velocity);
-        collider.getV1()->setXCoordinateToZero(getPosition()->getXCoordinate() - width/2.0);
-        collider.getV1()->setYCoordinateToZero(getPosition()->getYCoordinate() - height/2.0);
-        collider.getV2()->setXCoordinateToZero(getPosition()->getXCoordinate() + width/2.0);
-        collider.getV2()->setYCoordinateToZero(getPosition()->getYCoordinate() + height/2.0);
+        //this->getPosition()->changeInXCoordinate(velocity);
+        this->getPosition()->changeInXCoordinate(-Config::config()->getStickman()->getVelocity());
+        collider.getV1()->setXCoordinateToZero(getPosition()->getXCoordinate() - width / 2.0);
+        collider.getV1()->setYCoordinateToZero(getPosition()->getYCoordinate() - height / 2.0);
+        collider.getV2()->setXCoordinateToZero(getPosition()->getXCoordinate() + width / 2.0);
+        collider.getV2()->setYCoordinateToZero(getPosition()->getYCoordinate() + height / 2.0);
 
         updateChildren(paused, time_since_last_frame);
 
@@ -51,7 +56,7 @@ void Obstacle::update(bool paused, double time_since_last_frame) {
     }
 }
 
-void Obstacle::render(QPainter &painter) {
+void Obstacle::render(QPainter& painter) {
     QPen pen;
     pen.setColor(Qt::black);
     pen.setWidth(2);
@@ -63,7 +68,7 @@ void Obstacle::render(QPainter &painter) {
     if (getPosition() != nullptr) {
         double x = this->getPosition()->getQtRenderingXCoordinate();
         double y = this->getPosition()->getQtRenderingYCoordinate();
-        painter.drawRect(x - width/2.0, y - height/2.0, width, height);
+        painter.drawRect(x - width / 2.0, y - height / 2.0, width, height);
     }
 
     renderChildren(painter);
