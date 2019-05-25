@@ -13,6 +13,7 @@ struct PowerUpsConfig {
     double position_y;
     QImage image;
     std::string type;
+    int level;
 };
 
 class ExtendedConfig : public Configuration {
@@ -28,6 +29,7 @@ class ExtendedConfig : public Configuration {
     void setUpPowerUps(std::map<std::string, std::string> map);
     std::vector<PowerUpsConfig*> getOtherObjectsData();
     int getLives();
+    int getLevels();
 
   protected:
     virtual void setupConfig() override;
@@ -38,5 +40,6 @@ class ExtendedConfig : public Configuration {
     // stage 3
     std::vector<PowerUpsConfig*> other_objects_data;
     int m_lives;
+    int m_levels;
 };
 

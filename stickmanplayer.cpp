@@ -13,7 +13,8 @@ StickmanPlayer::StickmanPlayer(Coordinate* position, std::string name)
       jump_count(0),
       frame_number(1),
       counter(0),
-      m_lives(0) {
+      m_lives(0),
+      m_current_level(1) {
     physics_body.setYAcceleration(gravity);
 }
 
@@ -99,4 +100,12 @@ void StickmanPlayer::set_lives(int lives) {
 
 void StickmanPlayer::lose_life() {
     m_lives--;
+}
+
+int StickmanPlayer::getCurrentLevel() {
+    return m_current_level;
+}
+
+void StickmanPlayer::setCurrentLevel(int level) {
+    m_current_level = level;
 }

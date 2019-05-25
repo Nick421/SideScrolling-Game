@@ -14,7 +14,8 @@ Obstacle::Obstacle(Coordinate* position, double width, double height, double vel
       velocity(velocity),
       dist_travelled(0),
       loop_after(loop_after),
-      is_moving(true) {
+      is_moving(true),
+      initial_x(position->getQtRenderingXCoordinate()) {
 
     if (width > 0) {
         this->width = width;
@@ -72,4 +73,8 @@ void Obstacle::render(QPainter& painter) {
     }
 
     renderChildren(painter);
+}
+
+void Obstacle::resetLevel() {
+    this->setPosition(new Coordinate(initial_x, getPosition()->getYCoordinate(), getPosition()->getFrameHeight(), getPosition()->getFrameWidth()));
 }

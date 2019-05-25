@@ -10,7 +10,18 @@ Stage3Game::~Stage3Game() {
 }
 
 void Stage3Game::render(QPainter& painter) {
-    Stage2Game::render(painter);
+
+    if (state->getBackground() != nullptr) {
+        state->getBackground()->render(painter, paused || state->getPlayerColliding());
+    }
+
+    if (state->getPlayer() != nullptr) {
+        state->getPlayer()->render(painter);
+    }
+
+    // Render the current stage
+    state->getRootEntity()->render(painter);
+
     char text[40];
     sprintf(text, "Score: %d, Lives: %d", dynamic_cast<Mediator*>(state)->getScore(), state->getPlayer()->get_lives());
     painter.drawText(5, 20, text);
@@ -42,7 +53,12 @@ void Stage3Game::render(QPainter& painter) {
 }
 
 void Stage3Game::paintEvent(QPaintEvent* event) {
-    Stage2Game::paintEvent(event);
+    // Update game
+    state->update(paused);
+
+    // Render game
+    QPainter painter(this);
+    render(painter);
 }
 
 void Stage3Game::keyPressEvent(QKeyEvent* event) {

@@ -13,7 +13,8 @@ PowerUp::PowerUp(Coordinate* position, double width, double height, double veloc
       m_type(type),
       m_image(image),
       m_width(width),
-      m_height(height) {
+      m_height(height),
+      m_initial_x(position->getQtRenderingXCoordinate()) {
 
 }
 
@@ -51,4 +52,8 @@ void PowerUp::render(QPainter& painter) {
     }
 
     renderChildren(painter);
+}
+
+void PowerUp::resetLevel() {
+    setPosition(new Coordinate(m_initial_x, getPosition()->getYCoordinate(), getPosition()->getFrameHeight(), getPosition()->getFrameWidth()));
 }

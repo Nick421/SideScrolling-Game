@@ -28,6 +28,8 @@ class PowerUp : public CompositeEntity {
         return m_type;
     }
 
+    void resetLevel() override;
+
   private:
     QImage m_image;
     RectCollider m_collider;
@@ -38,6 +40,7 @@ class PowerUp : public CompositeEntity {
     double m_loop_after;
     bool m_is_moving;
     std::string m_type;
+    int m_initial_x;
 };
 
 #endif // POWERUP_H

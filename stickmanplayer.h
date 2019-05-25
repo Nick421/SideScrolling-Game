@@ -33,6 +33,8 @@ class StickmanPlayer : public Player {
     int get_lives() override;
     void set_lives(int lives) override;
     void lose_life() override;
+    int getCurrentLevel() override;
+    void setCurrentLevel(int level) override;
 
   private:
     // Coordinate for managing jumping and other movement independently to config positions.
@@ -50,5 +52,6 @@ class StickmanPlayer : public Player {
 
     // stage 3
     int m_lives;
+    int m_current_level;
 };
 

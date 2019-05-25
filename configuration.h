@@ -10,16 +10,18 @@ struct ObstacleConfig {
     int colour_red;
     int colour_green;
     int colour_blue;
+    // stage 3
+    int level;
 };
 
 class Configuration {
-public:
+  public:
     virtual ~Configuration() = default;
     virtual unsigned int getWorldWidth() = 0;
     virtual unsigned int getWorldHeight() = 0;
     virtual std::vector<ObstacleConfig*> getObstacleData() = 0;
 
-protected:
+  protected:
     virtual void setupConfig() = 0;
 
 };

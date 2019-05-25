@@ -15,4 +15,7 @@ class CompositeEntity : public Entity {
 
     void renderChildren(QPainter& painter);
     void updateChildren(bool paused, double deltaTimeMilliseconds);
+
+    //stage 3
+    void resetLevel();
 };

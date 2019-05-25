@@ -58,6 +58,11 @@ void ExtendedConfig::setUpPowerUps(map<string, string> map) {
             width = 100;
         }
 
+        int level = QString(get(str, "level", map).c_str()).toInt(&parse_check);
+        if (!parse_check || level == 0) {
+            level = 1;
+        }
+
         string type = get(str, "type", map);
 
         if (type.compare("") != 0) {
@@ -67,6 +72,7 @@ void ExtendedConfig::setUpPowerUps(map<string, string> map) {
             p_config->offset_x = start_x;
             p_config->position_y = start_y;
             p_config->type = type;
+            p_config->level = level;
 
             // Check that it doesnt overlap with other obstacles.
             bool overlap = false;
@@ -112,6 +118,10 @@ std::vector<PowerUpsConfig*> ExtendedConfig::getOtherObjectsData() {
 
 int ExtendedConfig::getLives() {
     return m_lives;
+}
+
+int ExtendedConfig::getLevels() {
+    return m_levels;
 }
 
 ExtendedConfig::ExtendedConfig(Config& config)
@@ -170,7 +180,8 @@ void ExtendedConfig::setupConfig() {
                 for (int i = 0; i < obstacles.size(); i++) {
                     ObstacleConfig* obstacle_config = new ObstacleConfig();
                     QStringList obstacle_fields = obstacles.at(i).split(",", QString::SkipEmptyParts);
-                    if (obstacle_fields.size() != 7) {
+                    // minor change for stage 3
+                    if (obstacle_fields.size() < 7 ) {
                         std::cerr << "Invalid obstacle data at index " << i << std::endl;
                         continue;
                     } else {
@@ -226,6 +237,12 @@ void ExtendedConfig::setupConfig() {
                                 obstacle_config->colour_green = g;
                                 obstacle_config->colour_blue = b;
 
+                                // stage 3
+                                if (obstacle_fields.size() == 8) {
+                                    int level = obstacle_fields.at(7).toInt();
+                                    obstacle_config->level = level;
+                                }
+
                                 obstacle_data.push_back(obstacle_config);
                             }
                         } catch (const std::exception& /*e*/) {
@@ -251,6 +268,14 @@ void ExtendedConfig::setupConfig() {
                 additionalObjects_info[current_section + "." + key] = value;
             } else if (split_line.first() == "Lives") {
                 m_lives = element.toInt();
+                if (m_lives <= 0) {
+                    m_lives = 1;
+                }
+            } else if (split_line.first() == "Levels") {
+                m_levels = element.toInt();
+                if (m_levels <= 0) {
+                    m_levels = 1;
+                }
             }
 
         }

@@ -3,7 +3,9 @@
 Mediator::Mediator():
     m_score(0),
     m_finished(false),
-    m_won(false) {
+    m_won(false),
+    m_num_levels(0),
+    m_giant(false) {
 
 }
 
@@ -11,21 +13,70 @@ Mediator::~Mediator() {
 
 }
 
+Entity* Mediator::getRootEntity() {
+    return m_levels[getPlayer()->getCurrentLevel() - 1];
+}
+
+Entity* Mediator::findEntityByName(const std::string& name) {
+
+    return findEntityByNameRecursive(name, m_levels[getPlayer()->getCurrentLevel() - 1]);
+}
+
+Entity* Mediator::findEntityByNameRecursive(const std::string& name, Entity* root) {
+    if (root->getName() == name) {
+        return root;
+    }
+    Entity* found = nullptr;
+    for (auto* child : m_levels[getPlayer()->getCurrentLevel() - 1]->getChildren()) {
+        found = findEntityByNameRecursive(name, child);
+        if (found != nullptr) {
+            return found;
+        }
+    }
+    return nullptr;
+}
+
+std::vector<Entity*> Mediator::findEntitiesByNameContains(const std::string& string) {
+    std::vector<Entity*> list;
+    findEntitiesByNameContainsRecursive(string, m_levels[getPlayer()->getCurrentLevel() - 1], list);
+    return list;
+}
+
+void Mediator::findEntitiesByNameContainsRecursive(const std::string& string, Entity* root, std::vector<Entity*>& list) {
+    if (root->getName().find(string) != std::string::npos) {
+        list.push_back(root);
+    }
+
+    for (auto* child : root->getChildren()) {
+        findEntitiesByNameContainsRecursive(string, child, list);
+    }
+}
+
+void Mediator::update(bool paused) {
+    checkCollisions();
+    double deltaTimeMilliseconds = 32; // Comes from hard coded timer interval value in Stage1Game.
+    getRootEntity()->update(paused || getPlayerColliding(), deltaTimeMilliseconds);
+    if (getPlayer() != nullptr) {
+        getPlayer()->update(paused, deltaTimeMilliseconds);
+    }
+}
+
+void Mediator::setLevels(Entity** root) {
+    m_levels = root;
+}
+
 void Mediator::checkCollisions() {
     GameState::checkCollisions();
 
-    unsigned int world_height = Config::config()->getWorldHeight();
-    unsigned int world_width = Config::config()->getWorldWidth();
-
     if (getPlayerColliding() == true) {
-        getPlayer()->lose_life();
-        // gotta somehow find a way to reset back.
-        getPlayer()->setPosition(new Coordinate(0,
-                                                0 + Config::config()->getStickman()->getHeight(),
-                                                world_height,
-                                                world_width));
-        if (getPlayer()->get_lives() == 0) {
-            //m_finished = true;
+        if (m_giant != true) {
+            getPlayer()->lose_life();
+
+            if (getPlayer()->get_lives() == 0) {
+                m_finished = true;
+            } else {
+                dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->resetLevel();
+            }
         }
     }
 
@@ -48,12 +99,18 @@ void Mediator::checkCollisions() {
                     Config::config()->getStickman()->changeSize("large");
                     getPlayer()->set_gravity(-9.8 * 400);
                 } else if (type.compare("Giant") == 0) {
-                    // need invuln and explosion
+                    // need explosion
                     Config::config()->getStickman()->changeSize("giant");
                     getPlayer()->set_gravity(-9.8 * 200);
+                    m_giant = true;
                 } else if (type.compare("Checkpoint") == 0) {
-                    m_finished = true;
-                    m_won = true;
+                    if (getPlayer()->getCurrentLevel() == m_num_levels) {
+                        m_finished = true;
+                        m_won = true;
+                    } else {
+                        m_score += 10;
+                        getPlayer()->setCurrentLevel(getPlayer()->getCurrentLevel() + 1);
+                    }
                 }
                 m_score += 10;
                 Config::config()->getStickman()->updateStickman();
@@ -73,4 +130,8 @@ bool Mediator::isFinished() {
 
 bool Mediator::didWon() {
     return m_won;
+}
+
+void Mediator::setNumLevels(int level) {
+    m_num_levels = level;
 }

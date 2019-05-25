@@ -15,5 +15,7 @@ class Player : public CompositeEntity {
     virtual int get_lives() = 0;
     virtual void set_lives(int lives) = 0;
     virtual void lose_life() = 0;
+    virtual int getCurrentLevel() = 0;
+    virtual void setCurrentLevel(int level) = 0;
 };
 

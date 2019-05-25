@@ -22,6 +22,9 @@ class Obstacle : public CompositeEntity {
         return is_moving;
     }
 
+    // stage 3
+    void resetLevel() override;
+
   private:
     QColor colour;
     RectCollider collider;
@@ -31,5 +34,8 @@ class Obstacle : public CompositeEntity {
     double dist_travelled;
     double loop_after;
     bool is_moving;
+
+    //stage 3
+    int initial_x;
 };
 

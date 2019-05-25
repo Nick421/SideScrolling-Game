@@ -17,11 +17,11 @@ class GameState {
     GameState();
     virtual ~GameState();
 
-    Entity* getRootEntity();
+    virtual Entity* getRootEntity();
     void setRootEntity(Entity* root);
 
-    Entity* findEntityByName(const std::string& name);
-    std::vector<Entity*> findEntitiesByNameContains(const std::string& string);
+    virtual Entity* findEntityByName(const std::string& name);
+    virtual std::vector<Entity*> findEntitiesByNameContains(const std::string& string);
 
     BackgroundStage3* getBackground();
     void setBackground(BackgroundStage3* bg);
@@ -29,7 +29,7 @@ class GameState {
     Player* getPlayer();
     void setPlayer(Player* player);
 
-    void update(bool paused);
+    virtual void update(bool paused);
     bool getPlayerColliding() {
         return player_colliding;
     }
@@ -38,13 +38,14 @@ class GameState {
     void setPlayerColliding(bool collided) {
         player_colliding = collided;
     }
+    virtual void setLevels(Entity** root) {}
 
   protected:
     virtual void checkCollisions();
 
   private:
-    Entity* findEntityByNameRecursive(const std::string& name, Entity* root);
-    void findEntitiesByNameContainsRecursive(const std::string& string, Entity* root, std::vector<Entity*>& list);
+    virtual Entity* findEntityByNameRecursive(const std::string& name, Entity* root);
+    virtual void findEntitiesByNameContainsRecursive(const std::string& string, Entity* root, std::vector<Entity*>& list);
 
     Player* player;
     BackgroundStage3* background;

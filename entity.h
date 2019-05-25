@@ -32,6 +32,9 @@ class Entity {
     virtual void update(bool paused, double time_since_last_frame) = 0;
     virtual void render(QPainter& painter) = 0;
 
+    // stage 3
+    virtual void resetLevel() = 0;
+
   protected:
     std::vector<Entity*> children;
 

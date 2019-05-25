@@ -33,7 +33,7 @@ Entity* CompositeEntity::getChild(Entity* e) {
     return nullptr;
 }
 
-void CompositeEntity::renderChildren(QPainter &painter) {
+void CompositeEntity::renderChildren(QPainter& painter) {
     std::vector<Entity*>::iterator it;
     for (it = children.begin(); it != children.end(); it++) {
         (*it)->render(painter);
@@ -44,6 +44,13 @@ void CompositeEntity::updateChildren(bool paused, double deltaTimeMilliseconds) 
     std::vector<Entity*>::iterator it;
     for (it = children.begin(); it != children.end(); it++) {
         (*it)->update(paused, deltaTimeMilliseconds);
+    }
+}
+
+void CompositeEntity::resetLevel() {
+    std::vector<Entity*>::iterator it;
+    for (it = children.begin(); it != children.end(); it++) {
+        (*it)->resetLevel();
     }
 }
 
