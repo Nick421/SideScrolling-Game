@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include <backgroundstage3.h>
+#include "backgroundstage3.h"
 
 class Background;
 class Entity;
@@ -34,8 +34,13 @@ class GameState {
         return player_colliding;
     }
 
+    // stage 3
+    void setPlayerColliding(bool collided) {
+        player_colliding = collided;
+    }
+
   protected:
-    void checkCollisions();
+    virtual void checkCollisions();
 
   private:
     Entity* findEntityByNameRecursive(const std::string& name, Entity* root);

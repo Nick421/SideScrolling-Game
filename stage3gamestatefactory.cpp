@@ -1,16 +1,7 @@
-#include "stage2gamestatefactory.h"
-#include "stage2game.h"
-#include "stickmanplayer.h"
-#include "obstacle.h"
-#include "gamestate.h"
-#include "extendedconfig.h"
-#include "emptyentity.h"
-#include "powerup.h"
-#include <vector>
-#include <sstream>
+#include "stage3gamestatefactory.h"
 
-GameState* Stage2GameStateFactory::createGameState() {
-    GameState* state = new GameState();
+GameState* Stage3GameStateFactory::createGameState() {
+    GameState* state = new Mediator();
 
     unsigned int world_height = Config::config()->getWorldHeight();
     unsigned int world_width = Config::config()->getWorldWidth();
@@ -50,7 +41,7 @@ GameState* Stage2GameStateFactory::createGameState() {
         count++;
     }
 
-    /* Create powerups, checkpoints stage 3
+    // Create powerups, checkpoints stage 3
     std::vector<PowerUpsConfig*> other_objects_data = config.getOtherObjectsData();
     count = 0;
     for (auto* PowerUpsConfig : other_objects_data) {
@@ -77,7 +68,7 @@ GameState* Stage2GameStateFactory::createGameState() {
         count++;
     }
     // stage 3
-    player->set_lives(config.getLives());*/
+    player->set_lives(config.getLives());
 
     // Create entity tree
     state->setRootEntity(root);
@@ -85,7 +76,7 @@ GameState* Stage2GameStateFactory::createGameState() {
     state->setPlayer(player);
 
     // stage 3
-    //Config::config()->getStickman()->changeVelocity(0);
+    Config::config()->getStickman()->changeVelocity(0);
 
     return state;
 }

@@ -3,6 +3,8 @@
 #include "stage2gamefactory.h"
 #include "stage2gamestatefactory.h"
 #include "tester.h"
+#include "stage3gamefactory.h"
+#include "stage3gamestatefactory.h"
 
 #include <QApplication>
 #include <QSound>
@@ -24,12 +26,12 @@ int main(int argc, char* argv[]) {
     sound.play();
 
     // Create testing interface with a separate game state.
-    auto state_factory = std::unique_ptr<GameStateFactory>(new Stage2GameStateFactory());
+    auto state_factory = std::unique_ptr<GameStateFactory>(new Stage3GameStateFactory());
     Tester tester(state_factory);
     //tester.run(2048);
 
     // Create rendered version of the game
-    GameFactory* factory = new Stage2GameFactory();
+    GameFactory* factory = new Stage3GameFactory();
 
     StartDialog start_dialog(factory);
     start_dialog.setWindowTitle("Main Menu");

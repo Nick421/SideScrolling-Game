@@ -12,7 +12,8 @@ StickmanPlayer::StickmanPlayer(Coordinate* position, std::string name)
       gravity(-9.8 * 200), // Assume 100 pixels = 1m
       jump_count(0),
       frame_number(1),
-      counter(0) {
+      counter(0),
+      m_lives(0) {
     physics_body.setYAcceleration(gravity);
 }
 

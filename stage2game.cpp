@@ -33,24 +33,7 @@ void Stage2Game::keyPressEvent(QKeyEvent* event) {
             // Make stickman jump
             state->getPlayer()->jump();
         }
-
-        //stage 3
-        else if (event->key() == Qt::Key_Right) {
-            //state->getBackground()->moveRight();
-            Config::config()->getStickman()->changeVelocity(20);
-            Config::config()->getStickman()->updateStickman();
-        } else if (event->key() == Qt::Key_Left) {
-            //state->getBackground()->moveLeft();
-            Config::config()->getStickman()->changeVelocity(-20);
-            Config::config()->getStickman()->updateStickman();
-        }
     }
-}
-
-// stage 3
-void Stage2Game::keyReleaseEvent(QKeyEvent* event) {
-    Config::config()->getStickman()->changeVelocity(0);
-    Config::config()->getStickman()->updateStickman();
 }
 
 void Stage2Game::paintEvent(QPaintEvent* /*event*/) {

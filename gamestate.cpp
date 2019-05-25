@@ -4,9 +4,6 @@
 #include "entity.h"
 #include "player.h"
 #include "rectcollider.h"
-//stage 3
-#include "config.h"
-#include "powerup.h"
 
 GameState::GameState()
     : player(nullptr),
@@ -80,7 +77,7 @@ void GameState::setPlayer(Player* player) {
 
 void GameState::checkCollisions() {
     bool player_collided = false;
-    for (auto* entity : findEntitiesByNameContains("")) {
+    for (auto* entity : findEntitiesByNameContains("obstacle")) {
         // Check collisions with player
         RectCollider* p_col = getPlayer()->getCollider();
         RectCollider* o_col = entity->getCollider();
@@ -89,42 +86,10 @@ void GameState::checkCollisions() {
                 getPlayer()->onCollision(entity);
                 entity->onCollision(getPlayer());
                 player_collided = true;
-                // stage 3
-                getPlayer()->lose_life();
             }
         }
     }
 
-    // stage 3
-    for (auto* entity : findEntitiesByNameContains("power")) {
-        // Check collisions with player
-        RectCollider* p_col = getPlayer()->getCollider();
-        RectCollider* o_col = entity->getCollider();
-        if (p_col != nullptr && o_col != nullptr) {
-            if (p_col->checkCollision(*o_col)) {
-                getPlayer()->onCollision(entity);
-                entity->onCollision(getPlayer());
-                std::string type = static_cast<PowerUp*>(entity)->get_type();
-                if (type.compare("Normal") == 0) {
-                    Config::config()->getStickman()->changeSize("normal");
-                    getPlayer()->set_gravity(-9.8 * 200);
-                } else if (type.compare("Tiny") == 0) {
-                    Config::config()->getStickman()->changeSize("tiny");
-                    getPlayer()->set_gravity(-9.8 * 200);
-                } else if (type.compare("Large") == 0) {
-                    Config::config()->getStickman()->changeSize("large");
-                    getPlayer()->set_gravity(-9.8 * 400);
-                } else if (type.compare("Giant") == 0) {
-                    // need invuln and explosion
-                    Config::config()->getStickman()->changeSize("giant");
-                    getPlayer()->set_gravity(-9.8 * 200);
-                }
-
-                Config::config()->getStickman()->updateStickman();
-                player_collided = true;
-            }
-        }
-    }
     player_colliding = player_collided;
 }
 

@@ -56,7 +56,11 @@ SOURCES += \
     stage2gamestatefactory.cpp \
     stage2gamestate.cpp \
     powerup.cpp \
-    backgroundstage3.cpp
+    backgroundstage3.cpp \
+    stage3game.cpp \
+    mediator.cpp \
+    stage3gamefactory.cpp \
+    stage3gamestatefactory.cpp
 
 HEADERS += \
     coordinate.h \
@@ -89,7 +93,11 @@ HEADERS += \
     stage2gamestate.h \
     collider.h \
     powerup.h \
-    backgroundstage3.h
+    backgroundstage3.h \
+    stage3game.h \
+    mediator.h \
+    stage3gamefactory.h \
+    stage3gamestatefactory.h
 
 FORMS += \
         pausedialog.ui \
