@@ -23,7 +23,7 @@ void Stage3Game::render(QPainter& painter) {
     state->getRootEntity()->render(painter);
 
     char text[40];
-    sprintf(text, "Score: %d, Lives: %d", dynamic_cast<Mediator*>(state)->getScore(), state->getPlayer()->get_lives());
+    sprintf(text, "Score: %d, Lives: %d, Stage: %d", dynamic_cast<Mediator*>(state)->getScore(), state->getPlayer()->get_lives(), state->getPlayer()->getCurrentLevel());
     painter.drawText(5, 20, text);
 
     // need to change this

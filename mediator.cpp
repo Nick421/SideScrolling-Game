@@ -10,7 +10,7 @@ Mediator::Mediator():
 }
 
 Mediator::~Mediator() {
-
+    delete [] m_levels;
 }
 
 Entity* Mediator::getRootEntity() {
@@ -69,13 +69,14 @@ void Mediator::checkCollisions() {
     GameState::checkCollisions();
 
     if (getPlayerColliding() == true) {
-        if (m_giant != true) {
+        if (m_giant != true && m_finished == false) {
             getPlayer()->lose_life();
 
             if (getPlayer()->get_lives() == 0) {
                 m_finished = true;
             } else {
                 dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->resetLevel();
+                setPlayerColliding(false);
             }
         }
     }
@@ -92,17 +93,28 @@ void Mediator::checkCollisions() {
                 if (type.compare("Normal") == 0) {
                     Config::config()->getStickman()->changeSize("normal");
                     getPlayer()->set_gravity(-9.8 * 200);
+                    m_score += 10;
+                    m_giant = false;
+                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
                 } else if (type.compare("Tiny") == 0) {
                     Config::config()->getStickman()->changeSize("tiny");
                     getPlayer()->set_gravity(-9.8 * 200);
+                    m_score += 10;
+                    m_giant = false;
+                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
                 } else if (type.compare("Large") == 0) {
                     Config::config()->getStickman()->changeSize("large");
                     getPlayer()->set_gravity(-9.8 * 400);
+                    m_score += 10;
+                    m_giant = false;
+                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
                 } else if (type.compare("Giant") == 0) {
                     // need explosion
                     Config::config()->getStickman()->changeSize("giant");
                     getPlayer()->set_gravity(-9.8 * 200);
                     m_giant = true;
+                    m_score += 10;
+                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
                 } else if (type.compare("Checkpoint") == 0) {
                     if (getPlayer()->getCurrentLevel() == m_num_levels) {
                         m_finished = true;
@@ -112,7 +124,7 @@ void Mediator::checkCollisions() {
                         getPlayer()->setCurrentLevel(getPlayer()->getCurrentLevel() + 1);
                     }
                 }
-                m_score += 10;
+
                 Config::config()->getStickman()->updateStickman();
                 setPlayerColliding(true);
             }
