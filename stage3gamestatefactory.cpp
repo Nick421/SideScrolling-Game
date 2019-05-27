@@ -1,6 +1,7 @@
 #include "stage3gamestatefactory.h"
 
 GameState* Stage3GameStateFactory::createGameState() {
+
     GameState* state = new Mediator();
 
     unsigned int world_height = Config::config()->getWorldHeight();
@@ -68,6 +69,8 @@ GameState* Stage3GameStateFactory::createGameState() {
                 image.load(":/img/misc/giant.png");
             } else if (PowerUpsConfig->type.compare("Checkpoint") == 0) {
                 image.load(":/img/misc/checkpoint.png");
+            } else if (PowerUpsConfig->type.compare("Speedup") == 0) {
+                image.load(":/img/misc/speedup.png");
             }
             Coordinate* obs_pos = new Coordinate(previous_x, PowerUpsConfig->position_y, world_height, world_width);
             PowerUp* obs = new PowerUp(obs_pos, image.width(), image.height(),
@@ -88,7 +91,9 @@ GameState* Stage3GameStateFactory::createGameState() {
     state->setBackground(background);
     state->setPlayer(player);
 
+
     Config::config()->getStickman()->changeVelocity(0);
+
 
     return state;
 }

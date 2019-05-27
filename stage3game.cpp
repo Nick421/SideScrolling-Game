@@ -2,7 +2,6 @@
 
 Stage3Game::Stage3Game(GameState* state):
     Stage2Game (state) {
-
 }
 
 Stage3Game::~Stage3Game() {
@@ -52,7 +51,7 @@ void Stage3Game::render(QPainter& painter) {
     }
 }
 
-void Stage3Game::paintEvent(QPaintEvent* event) {
+void Stage3Game::paintEvent(QPaintEvent* /*event*/) {
     // Update game
     state->update(paused);
 
@@ -65,15 +64,22 @@ void Stage3Game::keyPressEvent(QKeyEvent* event) {
     Stage2Game::keyPressEvent(event);
 
     if (event->key() == Qt::Key_Right) {
-        Config::config()->getStickman()->changeVelocity(20);
+        Config::config()->getStickman()->changeVelocity(Config::config()->getInitialVelocity());
         Config::config()->getStickman()->updateStickman();
     } else if (event->key() == Qt::Key_Left) {
-        Config::config()->getStickman()->changeVelocity(-20);
+        Config::config()->getStickman()->changeVelocity(-Config::config()->getInitialVelocity());
         Config::config()->getStickman()->updateStickman();
+    }
+
+    if (dynamic_cast<Mediator*>(state)->isFinished() && event->key() == Qt::Key_Return) {
+        close();
+        ScoreboardDialog::scoreboard()->setScore(dynamic_cast<Mediator*>(state)->getScore());
+        ScoreboardDialog::scoreboard()->show();
+
     }
 }
 
-void Stage3Game::keyReleaseEvent(QKeyEvent* event) {
+void Stage3Game::keyReleaseEvent(QKeyEvent* /*event*/) {
     Config::config()->getStickman()->changeVelocity(0);
     Config::config()->getStickman()->updateStickman();
 }

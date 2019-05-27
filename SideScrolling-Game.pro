@@ -60,7 +60,8 @@ SOURCES += \
     stage3game.cpp \
     mediator.cpp \
     stage3gamefactory.cpp \
-    stage3gamestatefactory.cpp
+    stage3gamestatefactory.cpp \
+    scoreboarddialog.cpp
 
 HEADERS += \
     coordinate.h \
@@ -97,12 +98,14 @@ HEADERS += \
     stage3game.h \
     mediator.h \
     stage3gamefactory.h \
-    stage3gamestatefactory.h
+    stage3gamestatefactory.h \
+    scoreboarddialog.h
 
 FORMS += \
         pausedialog.ui \
         startdialog.ui \
-        gamedialog.ui
+        gamedialog.ui \
+    scoreboarddialog.ui
 RESOURCES += \
     resources.qrc
 

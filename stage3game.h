@@ -3,6 +3,7 @@
 
 #include "stage2game.h"
 #include "mediator.h"
+#include "scoreboarddialog.h"
 
 class Stage3Game : public Stage2Game {
   public:
@@ -15,6 +16,7 @@ class Stage3Game : public Stage2Game {
     void paintEvent(QPaintEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
+
 };
 
 #endif // STAGE3GAME_H

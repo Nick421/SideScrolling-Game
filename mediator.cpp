@@ -66,7 +66,24 @@ void Mediator::setLevels(Entity** root) {
 }
 
 void Mediator::checkCollisions() {
-    GameState::checkCollisions();
+
+    for (auto* entity : findEntitiesByNameContains("obstacle")) {
+        // Check collisions with player
+        RectCollider* p_col = getPlayer()->getCollider();
+        RectCollider* o_col = entity->getCollider();
+        if (p_col != nullptr && o_col != nullptr) {
+            if (p_col->checkCollision(*o_col)) {
+                getPlayer()->onCollision(entity);
+                entity->onCollision(getPlayer());
+                setPlayerColliding(true);
+                if (m_giant == true) {
+                    m_score += 10;
+                    setPlayerColliding(false);
+                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
+                }
+            }
+        }
+    }
 
     if (getPlayerColliding() == true) {
         if (m_giant != true && m_finished == false) {
@@ -123,10 +140,14 @@ void Mediator::checkCollisions() {
                         m_score += 10;
                         getPlayer()->setCurrentLevel(getPlayer()->getCurrentLevel() + 1);
                     }
+                } else if (type.compare("Speedup") == 0) {
+                    Config::config()->setInitialVelocity(Config::config()->getInitialVelocity() * 2);
+                    m_score += 10;
+                    m_giant = false;
+                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
                 }
 
                 Config::config()->getStickman()->updateStickman();
-                setPlayerColliding(true);
             }
         }
     }

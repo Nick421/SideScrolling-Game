@@ -5,6 +5,7 @@
 #include "tester.h"
 #include "stage3gamefactory.h"
 #include "stage3gamestatefactory.h"
+#include "scoreboarddialog.h"
 
 #include <QApplication>
 #include <QSound>
@@ -36,6 +37,10 @@ int main(int argc, char* argv[]) {
     StartDialog start_dialog(factory);
     start_dialog.setWindowTitle("Main Menu");
     start_dialog.show();
+
+    ScoreboardDialog::scoreboard();
+    ScoreboardDialog::scoreboard()->setModal(true);
+    ScoreboardDialog::scoreboard()->setWindowTitle("Scoreboard");
 
     auto exit_code = a.exec();
     return exit_code;

@@ -83,5 +83,8 @@ void Config::setupConfig() {
 
     //Create the stickman, given the parameters from the config file
     Config::config()->setStickman(new Stickman(config_size, config_position, config_velocity));
+
+    // stage 3
+    Config::config()->setInitialVelocity(int(config_velocity));
 }
 
