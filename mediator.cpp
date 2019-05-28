@@ -76,11 +76,13 @@ void Mediator::checkCollisions() {
                 getPlayer()->onCollision(entity);
                 entity->onCollision(getPlayer());
                 setPlayerColliding(true);
+
                 if (m_giant == true) {
                     m_score += 10;
                     setPlayerColliding(false);
                     dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
                 }
+
             }
         }
     }
@@ -107,44 +109,24 @@ void Mediator::checkCollisions() {
                 getPlayer()->onCollision(entity);
                 entity->onCollision(getPlayer());
                 std::string type = static_cast<PowerUp*>(entity)->get_type();
+
                 if (type.compare("Normal") == 0) {
-                    Config::config()->getStickman()->changeSize("normal");
-                    getPlayer()->set_gravity(-9.8 * 200);
-                    m_score += 10;
-                    m_giant = false;
-                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
+                    normalPowerup();
+                    destroyObject(entity);
                 } else if (type.compare("Tiny") == 0) {
-                    Config::config()->getStickman()->changeSize("tiny");
-                    getPlayer()->set_gravity(-9.8 * 200);
-                    m_score += 10;
-                    m_giant = false;
-                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
+                    tinyPowerup();
+                    destroyObject(entity);
                 } else if (type.compare("Large") == 0) {
-                    Config::config()->getStickman()->changeSize("large");
-                    getPlayer()->set_gravity(-9.8 * 400);
-                    m_score += 10;
-                    m_giant = false;
-                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
+                    largePowerup();
+                    destroyObject(entity);
                 } else if (type.compare("Giant") == 0) {
-                    // need explosion
-                    Config::config()->getStickman()->changeSize("giant");
-                    getPlayer()->set_gravity(-9.8 * 200);
-                    m_giant = true;
-                    m_score += 10;
-                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
+                    giantPowerup();
+                    destroyObject(entity);
                 } else if (type.compare("Checkpoint") == 0) {
-                    if (getPlayer()->getCurrentLevel() == m_num_levels) {
-                        m_finished = true;
-                        m_won = true;
-                    } else {
-                        m_score += 10;
-                        getPlayer()->setCurrentLevel(getPlayer()->getCurrentLevel() + 1);
-                    }
+                    checkpoint();
                 } else if (type.compare("Speedup") == 0) {
-                    Config::config()->setInitialVelocity(Config::config()->getInitialVelocity() * 2);
-                    m_score += 10;
-                    m_giant = false;
-                    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(entity);
+                    speedup();
+                    destroyObject(entity);
                 }
 
                 Config::config()->getStickman()->updateStickman();
@@ -167,4 +149,53 @@ bool Mediator::didWon() {
 
 void Mediator::setNumLevels(int level) {
     m_num_levels = level;
+}
+
+void Mediator::largePowerup() {
+    Config::config()->getStickman()->changeSize("large");
+    getPlayer()->set_gravity(-9.8 * 400);
+    m_score += 10;
+    m_giant = false;
+}
+
+void Mediator::tinyPowerup() {
+    Config::config()->getStickman()->changeSize("tiny");
+    getPlayer()->set_gravity(-9.8 * 200);
+    m_score += 10;
+    m_giant = false;
+}
+
+void Mediator::normalPowerup() {
+    Config::config()->getStickman()->changeSize("normal");
+    getPlayer()->set_gravity(-9.8 * 200);
+    m_score += 10;
+    m_giant = false;
+}
+
+void Mediator::giantPowerup() {
+    // need explosion
+    Config::config()->getStickman()->changeSize("giant");
+    getPlayer()->set_gravity(-9.8 * 200);
+    m_giant = true;
+    m_score += 10;
+}
+
+void Mediator::speedup() {
+    Config::config()->setVelocity(Config::config()->getInitialVelocity() * 2);
+    m_score += 10;
+    m_giant = false;
+}
+
+void Mediator::checkpoint() {
+    if (getPlayer()->getCurrentLevel() == m_num_levels) {
+        m_finished = true;
+        m_won = true;
+    } else {
+        m_score += 10;
+        getPlayer()->setCurrentLevel(getPlayer()->getCurrentLevel() + 1);
+    }
+}
+
+void Mediator::destroyObject(Entity* e) {
+    dynamic_cast<CompositeEntity*>(m_levels[getPlayer()->getCurrentLevel() - 1])->removeChild(e);
 }

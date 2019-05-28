@@ -12,6 +12,7 @@ class Player : public CompositeEntity {
 
     // stage 3
     virtual void set_gravity(double gravity) = 0;
+    virtual double getGravity() = 0;
     virtual int get_lives() = 0;
     virtual void set_lives(int lives) = 0;
     virtual void lose_life() = 0;

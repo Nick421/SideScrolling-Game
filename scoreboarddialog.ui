@@ -24,15 +24,18 @@
    <item row="3" column="5">
     <widget class="QListWidget" name="listWidget"/>
    </item>
-   <item row="1" column="6">
-    <widget class="QLineEdit" name="lineEdit"/>
-   </item>
-   <item row="3" column="6">
-    <widget class="QPushButton" name="Sort">
-     <property name="text">
-      <string>Sort</string>
+   <item row="7" column="1" colspan="6">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
+   </item>
+   <item row="1" column="6">
+    <widget class="QLineEdit" name="lineEdit"/>
    </item>
    <item row="2" column="6">
     <widget class="QPushButton" name="Add">
@@ -52,16 +55,6 @@
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Name : score</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1" colspan="6">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>

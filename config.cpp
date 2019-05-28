@@ -86,5 +86,7 @@ void Config::setupConfig() {
 
     // stage 3
     Config::config()->setInitialVelocity(int(config_velocity));
+    Config::config()->setVelocity(int(config_velocity));
+    Config::config()->setInitialSize(config_size);
 }
 

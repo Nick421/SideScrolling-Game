@@ -93,6 +93,8 @@ GameState* Stage3GameStateFactory::createGameState() {
 
 
     Config::config()->getStickman()->changeVelocity(0);
+    Config::config()->getStickman()->changeSize(Config::config()->getInitialSize());
+    Config::config()->setVelocity(Config::config()->getInitialVelocity());
 
 
     return state;

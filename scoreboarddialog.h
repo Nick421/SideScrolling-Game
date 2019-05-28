@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QList>
+#include <QTextStream>
+#include <QFile>
 
 namespace Ui {
 class ScoreboardDialog;
@@ -22,11 +24,12 @@ class ScoreboardDialog : public QDialog {
     ~ScoreboardDialog();
 
     void setScore(int score);
+    void readBoard();
 
   private slots:
     void on_Add_pressed();
 
-    void on_Sort_pressed();
+    void on_buttonBox_accepted();
 
   private:
     Ui::ScoreboardDialog* ui;

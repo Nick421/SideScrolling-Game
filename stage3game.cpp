@@ -29,7 +29,7 @@ void Stage3Game::render(QPainter& painter) {
     // maybe an end dialog like start?
     if (dynamic_cast<Mediator*>(state)->isFinished()) {
         pause();
-        QFont font = QFont("Helvetica");
+        QFont font = QFont("Helvetica [Cronyx]");
         font.setPointSize(font.pointSize() * 4);
         painter.setFont(font);
 
@@ -48,6 +48,7 @@ void Stage3Game::render(QPainter& painter) {
         sprintf(finalscore, "Final score: %d", dynamic_cast<Mediator*>(state)->getScore());
         painter.drawText(250, 100, finaltext.c_str());
         painter.drawText(200, 200, finalscore);
+        painter.drawText(300, 300, "PRESS ENTER");
     }
 }
 
@@ -64,10 +65,10 @@ void Stage3Game::keyPressEvent(QKeyEvent* event) {
     Stage2Game::keyPressEvent(event);
 
     if (event->key() == Qt::Key_Right) {
-        Config::config()->getStickman()->changeVelocity(Config::config()->getInitialVelocity());
+        Config::config()->getStickman()->changeVelocity(Config::config()->getVelocity());
         Config::config()->getStickman()->updateStickman();
     } else if (event->key() == Qt::Key_Left) {
-        Config::config()->getStickman()->changeVelocity(-Config::config()->getInitialVelocity());
+        Config::config()->getStickman()->changeVelocity(-Config::config()->getVelocity());
         Config::config()->getStickman()->updateStickman();
     }
 

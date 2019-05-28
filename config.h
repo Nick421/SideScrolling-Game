@@ -52,6 +52,18 @@ class Config {
     int getInitialVelocity() {
         return m_initial_vel;
     }
+    void setVelocity(int velocity) {
+        m_velocity = velocity;
+    }
+    int getVelocity() {
+        return m_velocity;
+    }
+    void setInitialSize(std::string size) {
+        m_initial_size = size;
+    }
+    std::string getInitialSize() {
+        return m_initial_size;
+    }
 
   private:
 
@@ -65,5 +77,7 @@ class Config {
 
     // stage 3
     int m_initial_vel;
+    int m_velocity;
+    std::string m_initial_size;
 };
 

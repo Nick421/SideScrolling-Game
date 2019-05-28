@@ -109,3 +109,7 @@ int StickmanPlayer::getCurrentLevel() {
 void StickmanPlayer::setCurrentLevel(int level) {
     m_current_level = level;
 }
+
+double StickmanPlayer::getGravity() {
+    return gravity;
+}

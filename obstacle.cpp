@@ -75,6 +75,7 @@ void Obstacle::render(QPainter& painter) {
     renderChildren(painter);
 }
 
+// stage 3
 void Obstacle::resetLevel() {
     this->setPosition(new Coordinate(initial_x, getPosition()->getYCoordinate(), getPosition()->getFrameHeight(), getPosition()->getFrameWidth()));
 }

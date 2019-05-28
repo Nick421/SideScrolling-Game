@@ -27,6 +27,16 @@ class Mediator : public GameState {
     bool didWon();
     void setNumLevels(int level);
 
+    void largePowerup();
+    void tinyPowerup();
+    void normalPowerup();
+    void giantPowerup();
+    void speedup();
+    void checkpoint();
+
+    void destroyObject(Entity* e);
+
+
   private:
     int m_score;
     bool m_finished;
