@@ -47,10 +47,10 @@ void CompositeEntity::updateChildren(bool paused, double deltaTimeMilliseconds) 
     }
 }
 
+// stage 3
 void CompositeEntity::resetLevel() {
     std::vector<Entity*>::iterator it;
     for (it = children.begin(); it != children.end(); it++) {
         (*it)->resetLevel();
     }
 }
-

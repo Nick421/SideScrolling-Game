@@ -94,9 +94,11 @@ void ExtendedConfig::setUpPowerUps(map<string, string> map) {
                 double new_min_y = start_y - width / 2.0;
                 double new_max_y = start_y + width / 2.0;
                 if (!(old_min_x > new_max_x || old_max_x < new_min_x) && !(old_min_y > new_max_y || old_max_y < new_min_y)) {
-                    qDebug() << "Powerups overlap with an obstacle";
-                    overlap = true;
-                    break;
+                    if ((*it)->level == p_config->level) {
+                        qDebug() << "Powerups overlap with an obstacle";
+                        overlap = true;
+                        break;
+                    }
                 }
             }
             if (overlap) {

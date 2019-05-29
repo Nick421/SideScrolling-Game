@@ -26,5 +26,6 @@
         <file>img/misc/checkpoint.png</file>
         <file>img/misc/explosion.gif</file>
         <file>img/misc/speedup.png</file>
+        <file>img/misc/heart.png</file>
     </qresource>
 </RCC>

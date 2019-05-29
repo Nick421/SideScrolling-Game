@@ -5,6 +5,8 @@
 #include "mediator.h"
 #include "scoreboarddialog.h"
 
+static std::vector<Qt::Key> konami_sequence;
+
 class Stage3Game : public Stage2Game {
   public:
     Stage3Game(GameState* state);
@@ -16,6 +18,10 @@ class Stage3Game : public Stage2Game {
     void paintEvent(QPaintEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
+    void konamiSequenceMaker();
+    bool konamiSequenceChecker(QKeyEvent* event);
+  private:
+    unsigned long currentCode;
 
 };
 

@@ -20,11 +20,14 @@ class TestStage3 {
     void testCheckpointWin();
     void testCheckpointNextLevel();
     void testLoseLife();
+    void testGainLife();
+    void testSpeedPowerup();
     void testGameover();
     void testReset();
 
   private:
     GameState* state;
+    int num_cases_passed;
 };
 
 #endif // TESTSTAGE3_H

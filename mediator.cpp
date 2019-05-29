@@ -127,6 +127,9 @@ void Mediator::checkCollisions() {
                 } else if (type.compare("Speedup") == 0) {
                     speedup();
                     destroyObject(entity);
+                } else if (type.compare("Heart") == 0) {
+                    heart();
+                    destroyObject(entity);
                 }
 
                 Config::config()->getStickman()->updateStickman();
@@ -193,6 +196,23 @@ void Mediator::checkpoint() {
     } else {
         m_score += 10;
         getPlayer()->setCurrentLevel(getPlayer()->getCurrentLevel() + 1);
+    }
+}
+
+void Mediator::heart() {
+    getPlayer()->set_lives(getPlayer()->get_lives() + 1);
+    m_score += 10;
+    m_giant = false;
+}
+
+void Mediator::konamiCode() {
+    for (auto* entity : findEntitiesByNameContains("obstacle")) {
+        if (getPlayer()->get_lives() == 1) {
+            break;
+        } else if (rand() % 2 == 0) {
+            destroyObject(entity);
+            getPlayer()->lose_life();
+        }
     }
 }
 

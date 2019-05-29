@@ -1,7 +1,9 @@
 #include "stage3game.h"
 
 Stage3Game::Stage3Game(GameState* state):
-    Stage2Game (state) {
+    Stage2Game (state),
+    currentCode(0) {
+    konamiSequenceMaker();
 }
 
 Stage3Game::~Stage3Game() {
@@ -71,6 +73,11 @@ void Stage3Game::keyPressEvent(QKeyEvent* event) {
         Config::config()->getStickman()->changeVelocity(-Config::config()->getVelocity());
         Config::config()->getStickman()->updateStickman();
     }
+    if (konamiSequenceChecker(event)) {
+
+        dynamic_cast<Mediator*>(state)->konamiCode();
+    }
+
 
     if (dynamic_cast<Mediator*>(state)->isFinished() && event->key() == Qt::Key_Return) {
         close();
@@ -83,4 +90,30 @@ void Stage3Game::keyPressEvent(QKeyEvent* event) {
 void Stage3Game::keyReleaseEvent(QKeyEvent* /*event*/) {
     Config::config()->getStickman()->changeVelocity(0);
     Config::config()->getStickman()->updateStickman();
+}
+
+void Stage3Game::konamiSequenceMaker() {
+    konami_sequence.push_back(Qt::Key_Up);
+    konami_sequence.push_back(Qt::Key_Up);
+    konami_sequence.push_back(Qt::Key_Down);
+    konami_sequence.push_back(Qt::Key_Down);
+    konami_sequence.push_back(Qt::Key_Left);
+    konami_sequence.push_back(Qt::Key_Right);
+    konami_sequence.push_back(Qt::Key_Left);
+    konami_sequence.push_back(Qt::Key_Right);
+    konami_sequence.push_back(Qt::Key_B);
+    konami_sequence.push_back(Qt::Key_A);
+}
+
+bool Stage3Game::konamiSequenceChecker(QKeyEvent* event) {
+    if (event->key() == konami_sequence.at(currentCode)) {
+        currentCode++;
+    } else {
+        currentCode = 0;
+    }
+    if (currentCode == konami_sequence.size()) {
+        currentCode = 0;
+        return true;
+    }
+    return false;
 }

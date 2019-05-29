@@ -33,15 +33,17 @@ class Mediator : public GameState {
     void giantPowerup();
     void speedup();
     void checkpoint();
+    void heart();
+    void konamiCode();
 
     void destroyObject(Entity* e);
 
 
   private:
+    Entity** m_levels;
     int m_score;
     bool m_finished;
     bool m_won;
-    Entity** m_levels;
     int m_num_levels;
     bool m_giant;
 };

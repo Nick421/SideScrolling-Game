@@ -71,6 +71,8 @@ GameState* Stage3GameStateFactory::createGameState() {
                 image.load(":/img/misc/checkpoint.png");
             } else if (PowerUpsConfig->type.compare("Speedup") == 0) {
                 image.load(":/img/misc/speedup.png");
+            } else if (PowerUpsConfig->type.compare("Heart") == 0) {
+                image.load(":/img/misc/heart.png");
             }
             Coordinate* obs_pos = new Coordinate(previous_x, PowerUpsConfig->position_y, world_height, world_width);
             PowerUp* obs = new PowerUp(obs_pos, image.width(), image.height(),
