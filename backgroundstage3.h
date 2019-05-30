@@ -4,6 +4,13 @@
 #include "background.h"
 #include "config.h"
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Concrete Colleague                       *
+ *********************************************/
+
+// this class is simply subclass of Background
+// minor fix with how the background tiled to makesure it tiled to the left also
 class BackgroundStage3 : Background {
   public:
     BackgroundStage3(Coordinate main_coordinate);

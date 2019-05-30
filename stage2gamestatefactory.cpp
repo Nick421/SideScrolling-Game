@@ -50,42 +50,10 @@ GameState* Stage2GameStateFactory::createGameState() {
         count++;
     }
 
-    /* Create powerups, checkpoints stage 3
-    std::vector<PowerUpsConfig*> other_objects_data = config.getOtherObjectsData();
-    count = 0;
-    for (auto* PowerUpsConfig : other_objects_data) {
-        previous_x = previous_x + PowerUpsConfig->offset_x;
-        std::stringstream name;
-        name << "powerups_" << count;
-        QImage image;
-        if (PowerUpsConfig->type.compare("Tiny") == 0) {
-            image.load(":/img/misc/tiny.png");
-        } else if (PowerUpsConfig->type.compare("Normal") == 0) {
-            image.load(":/img/misc/normal.png");
-        } else if (PowerUpsConfig->type.compare("Large") == 0) {
-            image.load(":/img/misc/large.png");
-        } else if (PowerUpsConfig->type.compare("Giant") == 0) {
-            image.load(":/img/misc/giant.png");
-        } else if (PowerUpsConfig->type.compare("Checkpoint") == 0) {
-            image.load(":/img/misc/checkpoint.png");
-        }
-        Coordinate* obs_pos = new Coordinate(previous_x, PowerUpsConfig->position_y, world_height, world_width);
-        PowerUp* obs = new PowerUp(obs_pos, image.width(), image.height(),
-                                   -Config::config()->getStickman()->getVelocity(), loop,
-                                   name.str(), PowerUpsConfig->type, image);
-        root->addChild(obs);
-        count++;
-    }
-    // stage 3
-    player->set_lives(config.getLives());*/
-
     // Create entity tree
     state->setRootEntity(root);
     state->setBackground(background);
     state->setPlayer(player);
-
-    // stage 3
-    //Config::config()->getStickman()->changeVelocity(0);
 
     return state;
 }

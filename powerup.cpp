@@ -54,6 +54,7 @@ void PowerUp::render(QPainter& painter) {
     renderChildren(painter);
 }
 
+// reset back to initial x position
 void PowerUp::resetLevel() {
     setPosition(new Coordinate(m_initial_x, getPosition()->getYCoordinate(), getPosition()->getFrameHeight(), getPosition()->getFrameWidth()));
 }

@@ -8,9 +8,12 @@
 
 #include <QDebug>
 
+// Test class for stage 3
+// Simulate unit testing and mostly test the mediator
 class TestStage3 {
   public:
     TestStage3(std::unique_ptr<GameStateFactory>& factory);
+    // run all the test cases
     void run();
   protected:
     void testLargePowerup();

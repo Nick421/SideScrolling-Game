@@ -5,8 +5,15 @@
 #include "mediator.h"
 #include "scoreboarddialog.h"
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Concrete Colleague                       *
+ *********************************************/
+
+// vector to store the konami code
 static std::vector<Qt::Key> konami_sequence;
 
+// this class is subclass of stage 2 to override some methods
 class Stage3Game : public Stage2Game {
   public:
     Stage3Game(GameState* state);
@@ -15,12 +22,12 @@ class Stage3Game : public Stage2Game {
     void render(QPainter& painter) override;
 
   protected:
-    void paintEvent(QPaintEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
     void konamiSequenceMaker();
     bool konamiSequenceChecker(QKeyEvent* event);
   private:
+    // store the current index of konami code
     unsigned long currentCode;
 
 };

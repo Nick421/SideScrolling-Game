@@ -2,6 +2,11 @@
 
 #include "compositeentity.h"
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Colleague                                *
+ *********************************************/
+
 class Coordinate;
 
 class Player : public CompositeEntity {
@@ -10,12 +15,15 @@ class Player : public CompositeEntity {
     Player(Coordinate* position, std::string name);
     virtual void jump() = 0;
 
-    // stage 3
-    virtual void set_gravity(double gravity) = 0;
+    /* stage 3
+     * all virtual function for getters and setters
+     * for all new member variables in Player
+    */
+    virtual void setGravity(double gravity) = 0;
     virtual double getGravity() = 0;
-    virtual int get_lives() = 0;
-    virtual void set_lives(int lives) = 0;
-    virtual void lose_life() = 0;
+    virtual int getLives() = 0;
+    virtual void setLives(int lives) = 0;
+    virtual void loseLife() = 0;
     virtual int getCurrentLevel() = 0;
     virtual void setCurrentLevel(int level) = 0;
 };

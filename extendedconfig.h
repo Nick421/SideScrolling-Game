@@ -6,6 +6,7 @@
 #include "configuration.h"
 
 // stage 3
+// Powerup config struct to store all its parameter
 struct PowerUpsConfig {
     double width;
     double height;
@@ -26,8 +27,11 @@ class ExtendedConfig : public Configuration {
     virtual std::vector<ObstacleConfig*> getObstacleData() override;
 
     //stage 3
-    void setUpPowerUps(std::map<std::string, std::string> map);
+    // this initalised all objects in other_objects_data
+    void setUpPowerUps(const std::map<std::string, std::string>& map);
+    // getter to return the other_objects_data
     std::vector<PowerUpsConfig*> getOtherObjectsData();
+    // getter for number of lives and number of levels
     int getLives();
     int getLevels();
 
@@ -38,8 +42,9 @@ class ExtendedConfig : public Configuration {
     Config& config;
     std::vector<ObstacleConfig*> obstacle_data;
     // stage 3
+    // vector which stored PowerUpsConfig structs for each objects
     std::vector<PowerUpsConfig*> other_objects_data;
-    int m_lives;
-    int m_levels;
+    int m_lives{};
+    int m_levels{};
 };
 

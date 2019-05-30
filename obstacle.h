@@ -5,6 +5,11 @@
 #include "compositeentity.h"
 #include "rectcollider.h"
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Concrete Colleague                       *
+ *********************************************/
+
 class Obstacle : public CompositeEntity {
 
   public:
@@ -23,6 +28,7 @@ class Obstacle : public CompositeEntity {
     }
 
     // stage 3
+    // reset the obstacle position to its initial x position
     void resetLevel() override;
 
   private:
@@ -36,6 +42,7 @@ class Obstacle : public CompositeEntity {
     bool is_moving;
 
     //stage 3
+    // initial x position
     int initial_x;
 };
 

@@ -14,6 +14,7 @@
 #include <iostream>
 #include <memory>
 
+// these 2 are flag for using stage 3
 static bool stage3 = true;
 static bool test3 = false;
 
@@ -29,11 +30,14 @@ int main(int argc, char* argv[]) {
     sound.setLoops(-1);
     sound.play();
 
-    // Create testing interface with a separate game state.
+    // if stage 3 flag enable
     if (stage3) {
+        // Create testing interface with a separate game state.
         auto state_factory = std::unique_ptr<GameStateFactory>(new Stage3GameStateFactory());
         Tester tester(state_factory);
         tester.run(2048);
+
+        // if stage 3 test is enabled, run it
         if (test3) {
             TestStage3 test(state_factory);
             test.run();
@@ -45,6 +49,7 @@ int main(int argc, char* argv[]) {
             start_dialog.setWindowTitle("Main Menu");
             start_dialog.show();
 
+            // create scoreboard
             ScoreboardDialog::scoreboard();
             ScoreboardDialog::scoreboard()->setModal(true);
             ScoreboardDialog::scoreboard()->setWindowTitle("Scoreboard");
@@ -53,6 +58,7 @@ int main(int argc, char* argv[]) {
             return exit_code;
         }
     } else {
+        // Create testing interface with a separate game state.
         auto state_factory = std::unique_ptr<GameStateFactory>(new Stage2GameStateFactory());
         Tester tester(state_factory);
         tester.run(2048);

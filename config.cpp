@@ -85,6 +85,7 @@ void Config::setupConfig() {
     Config::config()->setStickman(new Stickman(config_size, config_position, config_velocity));
 
     // stage 3
+    // initialised all new member variables
     Config::config()->setInitialVelocity(int(config_velocity));
     Config::config()->setVelocity(int(config_velocity));
     Config::config()->setInitialSize(config_size);

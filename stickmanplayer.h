@@ -9,6 +9,11 @@
 #include "obstacle.h"
 #include "gamestate.h"
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Concrete Colleague                       *
+ *********************************************/
+
 class StickmanPlayer : public Player {
 
   public:
@@ -29,10 +34,11 @@ class StickmanPlayer : public Player {
     virtual void render(QPainter& painter) override;
 
     // stage 3
-    void set_gravity(double gravity) override;
-    int get_lives() override;
-    void set_lives(int lives) override;
-    void lose_life() override;
+    // getter and setters for gravity, lives and current level
+    void setGravity(double gravity) override;
+    int getLives() override;
+    void setLives(int lives) override;
+    void loseLife() override;
     int getCurrentLevel() override;
     void setCurrentLevel(int level) override;
     double getGravity() override;

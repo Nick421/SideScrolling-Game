@@ -2,6 +2,7 @@
 
 GameState* Stage3GameStateFactory::createGameState() {
 
+    // instead of GameState we make a mediator instead
     GameState* state = new Mediator();
 
     unsigned int world_height = Config::config()->getWorldHeight();
@@ -14,12 +15,12 @@ GameState* Stage3GameStateFactory::createGameState() {
                                                                world_height,
                                                                world_width),
                                                 "stickman");
-    Coordinate* pos = new Coordinate(0, 0, world_height, world_width);
+    auto* pos = new Coordinate(0, 0, world_height, world_width);
 
     ExtendedConfig config(*Config::config());
 
     // allocate memory for levels
-    EmptyEntity** root = new EmptyEntity*[config.getLevels()];
+    auto** root = new EmptyEntity*[config.getLevels()];
 
     // Load obstacle data from file
     std::vector<ObstacleConfig*> obstacle_data = config.getObstacleData();
@@ -41,10 +42,11 @@ GameState* Stage3GameStateFactory::createGameState() {
             previous_x = previous_x + obstacleConfig->offset_x;
             std::stringstream name;
             name << "obstacle_" << count;
-            Coordinate* obs_pos = new Coordinate(previous_x, obstacleConfig->position_y, world_height, world_width);
+            auto* obs_pos = new Coordinate(previous_x, obstacleConfig->position_y, world_height, world_width);
             Obstacle* obs = new Obstacle(obs_pos, obstacleConfig->width, obstacleConfig->height,
                                          -Config::config()->getStickman()->getVelocity(), loop,
                                          QColor(obstacleConfig->colour_red, obstacleConfig->colour_green, obstacleConfig->colour_blue), name.str());
+            // if it is in the current level add them
             if (obstacleConfig->level == i + 1) {
                 root[i]->addChild(obs);
             }
@@ -59,25 +61,29 @@ GameState* Stage3GameStateFactory::createGameState() {
             std::stringstream name;
             name << "powerups_" << count;
             QImage image;
-            if (PowerUpsConfig->type.compare("Tiny") == 0) {
+
+            // check what type of objects they are and load the coressponding image
+            if (PowerUpsConfig->type == "Tiny") {
                 image.load(":/img/misc/tiny.png");
-            } else if (PowerUpsConfig->type.compare("Normal") == 0) {
+            } else if (PowerUpsConfig->type == "Normal") {
                 image.load(":/img/misc/normal.png");
-            } else if (PowerUpsConfig->type.compare("Large") == 0) {
+            } else if (PowerUpsConfig->type == "Large") {
                 image.load(":/img/misc/large.png");
-            } else if (PowerUpsConfig->type.compare("Giant") == 0) {
+            } else if (PowerUpsConfig->type == "Giant") {
                 image.load(":/img/misc/giant.png");
-            } else if (PowerUpsConfig->type.compare("Checkpoint") == 0) {
+            } else if (PowerUpsConfig->type == "Checkpoint") {
                 image.load(":/img/misc/checkpoint.png");
-            } else if (PowerUpsConfig->type.compare("Speedup") == 0) {
+            } else if (PowerUpsConfig->type == "Speedup") {
                 image.load(":/img/misc/speedup.png");
-            } else if (PowerUpsConfig->type.compare("Heart") == 0) {
+            } else if (PowerUpsConfig->type == "Heart") {
                 image.load(":/img/misc/heart.png");
             }
-            Coordinate* obs_pos = new Coordinate(previous_x, PowerUpsConfig->position_y, world_height, world_width);
+            // create the powerups
+            auto* obs_pos = new Coordinate(previous_x, PowerUpsConfig->position_y, world_height, world_width);
             PowerUp* obs = new PowerUp(obs_pos, image.width(), image.height(),
                                        -Config::config()->getStickman()->getVelocity(), loop,
                                        name.str(), PowerUpsConfig->type, image);
+            // if it is in the current level add them
             if (PowerUpsConfig->level == i + 1) {
                 root[i]->addChild(obs);
             }
@@ -85,7 +91,8 @@ GameState* Stage3GameStateFactory::createGameState() {
         }
     }
 
-    player->set_lives(config.getLives());
+    // set lives and number of levels
+    player->setLives(config.getLives());
     dynamic_cast<Mediator*>(state)->setNumLevels(config.getLevels());
 
     // Create entity tree
@@ -93,11 +100,11 @@ GameState* Stage3GameStateFactory::createGameState() {
     state->setBackground(background);
     state->setPlayer(player);
 
-
+    // set velocity to 0 when game start, set size to inital size
+    // make sure the game reset each time it is play
     Config::config()->getStickman()->changeVelocity(0);
     Config::config()->getStickman()->changeSize(Config::config()->getInitialSize());
     Config::config()->setVelocity(Config::config()->getInitialVelocity());
-
 
     return state;
 }

@@ -8,36 +8,44 @@
 #include <QDebug>
 
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
 // stage 3
 
-string search_key(string section, string key) {
+// combine section and key to use for map key
+string search_key(const string& section, const string& key) {
     return section + "." + key;
 }
 
+// return the value from the map
 string get(string section, string key, map <string, string> obstacles_infos) {
-    map<string, string>::iterator it = obstacles_infos.find(search_key(section, key));
+    auto it = obstacles_infos.find(search_key(section, key));
     if (it != obstacles_infos.end()) {
         return it->second;
     }
     return "";
 }
 
-void ExtendedConfig::setUpPowerUps(map<string, string> map) {
+// initialised all objects(except obstacle) into the vector so factory can create them
+void ExtendedConfig::setUpPowerUps(const map<string, string>& map) {
     bool parse_check = false;
     int num_object = 0;
-    while (1) {
+
+    while (true) {
         num_object++;
         char str[20];
         sprintf(str, "Powerup%d", num_object);
         std::string check = get(str, "type", map);
-        if (check.compare("") == 0) {
+
+        // check if we read all of them or things don't exist in the map
+        if (check == "") {
             qDebug() << "READ ALL OF THE POWERSUPS IN THE CONFIG FILES\n";
             break;
         }
 
+        // parse all parameters
         int start_x = QString(get(str, "x", map).c_str()).toInt(&parse_check);
         if (!parse_check && start_x < 0) {
             start_x = 0;
@@ -65,8 +73,11 @@ void ExtendedConfig::setUpPowerUps(map<string, string> map) {
 
         string type = get(str, "type", map);
 
-        if (type.compare("") != 0) {
-            PowerUpsConfig* p_config = new PowerUpsConfig();
+        // sanity check if type is specified or not
+        if (type != "") {
+
+            // load all value into struct
+            auto* p_config = new PowerUpsConfig();
             p_config->width = width;
             p_config->height = height;
             p_config->offset_x = start_x;
@@ -104,7 +115,6 @@ void ExtendedConfig::setUpPowerUps(map<string, string> map) {
             if (overlap) {
                 continue;
             }
-
             other_objects_data.push_back(p_config);
 
         } else {
@@ -254,25 +264,30 @@ void ExtendedConfig::setupConfig() {
                     }
                 }
                 // stage 3
+                // if the line starts a Powerup, checkpoint config
             } else if (split_line.first().startsWith("<")) {
-
+                // check if the section is correct
                 if (split_line[0].at(split_line[0].length() - 1) == '>') {
 
+                    // set current section name by taking string between <>
                     current_section = current_section = split_line[0].toStdString().substr(1, split_line[0].size() - 2);
                     in_section = true;
                 }
-            } else if (in_section == true && split_line[0].at(0) != '<') {
+                // if in section and line doesn't start with <
+            } else if (in_section && split_line[0].at(0) != '<') {
                 string key = split_line.at(0).toStdString();
                 string value = split_line.at(1).toStdString();
 
                 // put key value into the map
                 // example key.value = value
                 additionalObjects_info[current_section + "." + key] = value;
+                // number of lives specified in config
             } else if (split_line.first() == "Lives") {
                 m_lives = element.toInt();
                 if (m_lives <= 0) {
                     m_lives = 1;
                 }
+                // number of levels specified in config
             } else if (split_line.first() == "Levels") {
                 m_levels = element.toInt();
                 if (m_levels <= 0) {
@@ -283,7 +298,8 @@ void ExtendedConfig::setupConfig() {
         }
 
         config_file.close();
-        //stage 3
+        // stage 3
+        // load all power ups
         setUpPowerUps(additionalObjects_info);
     } else {
         std::cerr << "Config file not found" << std::endl;

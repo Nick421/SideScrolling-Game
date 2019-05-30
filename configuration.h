@@ -11,6 +11,7 @@ struct ObstacleConfig {
     int colour_green;
     int colour_blue;
     // stage 3
+    // level identifier for obstacle
     int level;
 };
 

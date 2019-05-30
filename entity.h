@@ -3,6 +3,11 @@
 #include <vector>
 #include <QPainter>
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Colleague                                *
+ *********************************************/
+
 class Coordinate;
 class RectCollider;
 
@@ -33,6 +38,7 @@ class Entity {
     virtual void render(QPainter& painter) = 0;
 
     // stage 3
+    // virtual method for obstacle to implement
     virtual void resetLevel() = 0;
 
   protected:

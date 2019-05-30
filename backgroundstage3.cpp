@@ -8,9 +8,7 @@ BackgroundStage3::BackgroundStage3(Coordinate main_coordinate):
 
 }
 
-BackgroundStage3::~BackgroundStage3() {
-
-}
+BackgroundStage3::~BackgroundStage3() = default;
 
 void BackgroundStage3::render(QPainter& painter, bool paused) {
     Coordinate first_coordinate_wrap(first_coordinate.getXCoordinate() + (100 + Config::config()->getWorldWidth()),
@@ -67,10 +65,10 @@ void BackgroundStage3::render(QPainter& painter, bool paused) {
     int height = getThird().height();
 
     // Calculate the x coordinate to start tiling the image from.
-    int startX = int(third_coordinate_wrap.getQtRenderingXCoordinate()) % width - width;
+    int start_x = int(third_coordinate_wrap.getQtRenderingXCoordinate()) % width - width;
 
     // Tile multiple copies of the image to fill the screen.
-    for (int x = startX; x < painter.device()->width(); x += width) {
+    for (int x = start_x; x < painter.device()->width(); x += width) {
         for (int y = 0; y < painter.device()->height(); y += height) {
             painter.drawPixmap(x, y, getThird());
         }

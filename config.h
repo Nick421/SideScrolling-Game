@@ -46,6 +46,7 @@ class Config {
     }
 
     // stage 3
+    // additional getters and setters for private members variables
     void setInitialVelocity(int velocity) {
         m_initial_vel = velocity;
     }

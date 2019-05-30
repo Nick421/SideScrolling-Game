@@ -3,6 +3,11 @@
 #include "stage1game.h"
 #include "gamestate.h"
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Colleague                                *
+ *********************************************/
+
 class GameState;
 
 class Stage2Game : public Stage1Game {

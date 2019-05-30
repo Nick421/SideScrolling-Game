@@ -7,6 +7,11 @@
 
 #include "backgroundstage3.h"
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Mediator                                 *
+ *********************************************/
+
 class Background;
 class Entity;
 class Player;
@@ -38,6 +43,7 @@ class GameState {
     void setPlayerColliding(bool collided) {
         player_colliding = collided;
     }
+    // virtual method for mediator to implement
     virtual void setLevels(Entity** root) {}
 
   protected:

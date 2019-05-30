@@ -86,19 +86,20 @@ void StickmanPlayer::render(QPainter& painter) {
 }
 
 // stgae 3
-void StickmanPlayer::set_gravity(double gravity) {
+// self explanatory getters and setters
+void StickmanPlayer::setGravity(double gravity) {
     this->gravity = gravity;
 }
 
-int StickmanPlayer::get_lives() {
+int StickmanPlayer::getLives() {
     return m_lives;
 }
 
-void StickmanPlayer::set_lives(int lives) {
+void StickmanPlayer::setLives(int lives) {
     this->m_lives = lives;
 }
-
-void StickmanPlayer::lose_life() {
+// decrease life when hitting an obstacle
+void StickmanPlayer::loseLife() {
     m_lives--;
 }
 

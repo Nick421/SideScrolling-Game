@@ -5,6 +5,17 @@
 #include "rectcollider.h"
 #include "coordinate.h"
 
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Concrete Colleague                       *
+ *********************************************/
+
+/*
+ * Powerup class
+ * The class is nearly identical to obstacle class
+ * only new method is getter for type
+ * The type defined what type of powerup it is
+*/
 class PowerUp : public CompositeEntity {
 
   public:
@@ -24,10 +35,11 @@ class PowerUp : public CompositeEntity {
         return m_is_moving;
     }
 
-    std::string get_type() {
+    // getter for m_type
+    std::string getType() {
         return m_type;
     }
-
+    // reset method
     void resetLevel() override;
 
   private:

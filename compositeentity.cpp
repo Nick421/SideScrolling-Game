@@ -48,6 +48,7 @@ void CompositeEntity::updateChildren(bool paused, double deltaTimeMilliseconds) 
 }
 
 // stage 3
+// iterate through obstacles and called its resetLevel method
 void CompositeEntity::resetLevel() {
     std::vector<Entity*>::iterator it;
     for (it = children.begin(); it != children.end(); it++) {

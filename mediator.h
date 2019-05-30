@@ -9,11 +9,21 @@
 #include "player.h"
 #include "rectcollider.h"
 
+
+/*********************************************
+ *  Design Pattern: Mediator                 *
+ *  Concrete Mediator
+ *********************************************/
+
+// this class is a subclass of Gamestate which was a psuedo mediator already
+// it overrides all the method to support multiple levels
+
 class Mediator : public GameState {
   public:
     Mediator();
     ~Mediator() override;
 
+    // all method from GameState class
     Entity* getRootEntity() override;
     Entity* findEntityByName(const std::string& name) override;
     Entity* findEntityByNameRecursive(const std::string& name, Entity* root) override;
@@ -22,11 +32,14 @@ class Mediator : public GameState {
     void update(bool paused) override;
     void setLevels(Entity** root) override;
     void checkCollisions() override;
+
+    // Getters and setters
     int getScore();
     bool isFinished();
     bool didWon();
     void setNumLevels(int level);
 
+    // methods for powerups and other objects
     void largePowerup();
     void tinyPowerup();
     void normalPowerup();
@@ -38,9 +51,8 @@ class Mediator : public GameState {
 
     void destroyObject(Entity* e);
 
-
   private:
-    Entity** m_levels;
+    Entity** m_levels{}; // List of list of entities each level of list of entities
     int m_score;
     bool m_finished;
     bool m_won;
