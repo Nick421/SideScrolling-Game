@@ -214,6 +214,8 @@ void Mediator::checkpoint() {
         m_won = true;
     } else {
         m_score += 10;
+        // delete the level to free some memory
+        delete m_levels[getPlayer()->getCurrentLevel() - 1];
         getPlayer()->setCurrentLevel(getPlayer()->getCurrentLevel() + 1);
     }
 }
